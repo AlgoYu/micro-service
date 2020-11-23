@@ -9,6 +9,10 @@ spring:
         server-addr: 127.0.0.1:8848
         file-extension: yaml
         group: DEV
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8858
+        port: 8719
   application:
     name: MICRO-PROVIDER-SERVICE
 management:
