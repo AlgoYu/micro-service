@@ -1,9 +1,7 @@
 package cn.machine.geek.controller;
 
 import cn.machine.geek.dto.R;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: MachineGeek
@@ -15,7 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/provider")
 public class ProviderController {
     @GetMapping(value = "/get")
-    public R getTest(){
+    public R get(){
         return R.ok("Get测试OK");
+    }
+
+    @PostMapping(value = "/post")
+    public R post(@RequestBody Object object){
+        return R.ok(object);
     }
 }
