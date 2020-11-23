@@ -1,7 +1,18 @@
+server:
+  port: 10002
 spring:
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        group: DEV
   application:
     name: MICRO-CONSUMER-SERVICE
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

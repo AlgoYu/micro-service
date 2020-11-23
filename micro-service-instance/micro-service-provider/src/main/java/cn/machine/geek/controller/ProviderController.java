@@ -1,6 +1,7 @@
 package cn.machine.geek.controller;
 
 import cn.machine.geek.dto.R;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -12,6 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/provider")
 public class ProviderController {
+
+    @Value("${instance.name}")
+    private String instanceName;
+
     @GetMapping(value = "/get")
     public R get(){
         return R.ok("Get测试OK");
@@ -20,5 +25,10 @@ public class ProviderController {
     @PostMapping(value = "/post")
     public R post(@RequestBody Object object){
         return R.ok(object);
+    }
+
+    @GetMapping(value = "/config")
+    public R config(){
+        return R.ok(this.instanceName);
     }
 }
