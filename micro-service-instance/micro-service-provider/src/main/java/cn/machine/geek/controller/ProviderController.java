@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 2020/11/19
  */
 @RestController
-@RequestMapping(value = "/test")
-public class TestController {
+@RequestMapping(value = "/provider")
+public class ProviderController {
     @GetMapping(value = "/get")
     public R getTest(){
         return R.ok("Get测试OK");
