@@ -2,7 +2,9 @@ package cn.machine.geek.service;
 
 import cn.machine.geek.dto.R;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @Author: MachineGeek
@@ -11,7 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @Date: 2020/11/23
  */
 @FeignClient(value = "MICRO-PROVIDER-SERVICE")
+@Service
 public interface ProviderService {
-    @GetMapping(value = "/get")
+    @GetMapping(value = "/provider/get")
     R get();
+
+    @PostMapping(value = "/provider/post")
+    R post(Object object);
 }
