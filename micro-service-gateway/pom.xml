@@ -11,5 +11,22 @@
 
     <artifactId>micro-service-gateway</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>cn.machine.geek</groupId>
+            <artifactId>micro-service-core</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
