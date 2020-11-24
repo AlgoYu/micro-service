@@ -1,6 +1,8 @@
 package cn.machine.geek.controller;
 
 import cn.machine.geek.dto.R;
+import cn.machine.geek.service.SendService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class ProviderController {
     @Value("${server.port}")
     private Integer port;
+    @Autowired
+    private SendService sendService;
 
     @Value("${instance.name}")
     private String instanceName;
@@ -37,5 +41,11 @@ public class ProviderController {
     @GetMapping(value = "/loadBalancing")
     public R loadBalancing(){
         return R.ok(this.port);
+    }
+
+    @GetMapping(value = "/sendMessage/{msg}")
+    public R sendMessage(@PathVariable(value = "msg")String msg){
+        sendService.sendMessage(msg);
+        return R.ok();
     }
 }

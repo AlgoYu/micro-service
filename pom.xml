@@ -17,9 +17,15 @@
     </modules>
 
     <properties>
+        <!-- Spring版本管理 -->
         <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
+        <!-- 框架版本管理 -->
+        <mysql.version>8.0.21</mysql.version>
+        <druid.version>1.1.22</druid.version>
+        <mybatis-plus.version>3.4.0</mybatis-plus.version>
+        <guava.version>30.0-jre</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -47,6 +53,22 @@
                 <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- 其他框架依赖管理 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

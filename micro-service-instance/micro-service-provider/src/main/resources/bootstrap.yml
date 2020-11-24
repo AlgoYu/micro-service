@@ -13,6 +13,22 @@ spring:
       transport:
         dashboard: 127.0.0.1:8858
         port: 8719
+    stream:
+      binders:
+        defaultRabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: 127.0.0.1
+                port: 5672
+                username: guest
+                password: guest
+      bindings:
+        output:
+          destination: DevExchange
+          content-type: application/json
+          binder: defaultRabbit
   application:
     name: MICRO-PROVIDER-SERVICE
 management:
