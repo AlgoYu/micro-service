@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 23/11/2020 17:28:18
+ Date: 24/11/2020 11:42:53
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `config_info` (
   `c_schema` text COLLATE utf8_bin,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_configinfo_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info';
 
 -- ----------------------------
 -- Records of config_info
@@ -48,6 +48,7 @@ CREATE TABLE `config_info` (
 BEGIN;
 INSERT INTO `config_info` VALUES (2, 'MICRO-PROVIDER-SERVICE.yaml', 'DEV', 'instance:\n    name: \'服务提供者\'', '3f6a4e2087f1d331a3eda83e1b88ea1b', '2020-11-23 09:14:09', '2020-11-23 09:14:09', NULL, '172.17.0.1', '', '', '服务提供者配置', NULL, NULL, 'yaml', NULL);
 INSERT INTO `config_info` VALUES (3, 'MICRO-CONSUMER-SERVICE.yaml', 'DEV', 'instance:\n    name: \'服务消费者\'', '8c21bd046ab1cd3efc96158e0295ea8a', '2020-11-23 09:18:58', '2020-11-23 09:18:58', NULL, '172.17.0.1', '', '', '服务消费者配置', NULL, NULL, 'yaml', NULL);
+INSERT INTO `config_info` VALUES (9, 'MICRO-GATEWAY-SERVICE.yaml', 'DEV', 'instance:\n    name: \'微服务网关\'\nspring:\n    cloud:\n        gateway:\n            routes:\n            - id: PROVIDER-ROUTH\n              uri: lb://MICRO-PROVIDER-SERVICE\n              predicates:\n              - Path=/provider/**\n            - id: CONSUMER-ROUTH\n              uri: lb://MICRO-CONSUMER-SERVICE\n              predicates:\n                - Path=/consumer/**', 'eb87a4c68b79e82c1ff3a86ff5cbc0bc', '2020-11-24 03:20:21', '2020-11-24 03:28:25', NULL, '172.17.0.1', '', '', '', '', '', 'yaml', '');
 COMMIT;
 
 -- ----------------------------
@@ -197,13 +198,12 @@ CREATE TABLE `his_config_info` (
   KEY `idx_gmt_create` (`gmt_create`),
   KEY `idx_gmt_modified` (`gmt_modified`),
   KEY `idx_did` (`data_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='多租户改造';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='多租户改造';
 
 -- ----------------------------
 -- Records of his_config_info
 -- ----------------------------
 BEGIN;
-INSERT INTO `his_config_info` VALUES (0, 4, 'MICRO-CONSUMER-SERVICE.yaml', 'DEV', '', 'instance:\n    name: \'服务消费者\'', '8c21bd046ab1cd3efc96158e0295ea8a', '2020-11-23 09:18:57', '2020-11-23 09:18:58', NULL, '172.17.0.1', 'I', '');
 COMMIT;
 
 -- ----------------------------

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/provider")
 public class ProviderController {
+    @Value("${server.port}")
+    private Integer port;
 
     @Value("${instance.name}")
     private String instanceName;
@@ -30,5 +32,10 @@ public class ProviderController {
     @GetMapping(value = "/config")
     public R config(){
         return R.ok(this.instanceName);
+    }
+
+    @GetMapping(value = "/loadBalancing")
+    public R loadBalancing(){
+        return R.ok(this.port);
     }
 }
