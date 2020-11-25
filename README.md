@@ -28,10 +28,13 @@
 6. `WebSocket`集成，提供了接口可以注入轻松发送，搭配了`Redis`的订阅发布，集群状态下也无需担心连接发送不到的问题。
 7. `代码生成器`可以一键生成`实体类`、`映射类`、`xml文件`、`服务接口`、`服务实现类`、`控制器`、`前端数据表页面`、`API文件`等等，使用的模板引擎，可以自定义自己的代码生成工具。
 ## 说明
-`Nacos`：采用Nacos作为服务注册中心、配置中心、消息总线。  
-`OpenFeign、Dubbo`:采用OpenFeign、Dubbo作为服务调用的方式。  
-`Sentinel`: 采用Sentinel对服务做`限流`、`熔断`、`降级`  
-`Zipkin`: 采用Zipkin作为服务调用的链路追踪。  
+`Spring Cloud Alibaba Nacos`：采用Nacos作为服务注册中心、配置中心、消息总线。  
+`Spring Cloud OpenFeign、Spring Cloud Alibaba Dubbo`:采用OpenFeign、Dubbo作为服务调用。  
+`Spring Cloud Alibaba Sentinel`: 采用Sentinel对服务做`限流`、`熔断`、`降级`。  
+`Spring Cloud Zipkin`: 采用Zipkin作为服务调用的链路追踪。  
+`Spring Cloud Alibaba Seata`: 使用Seata做分布式事务管理。  
+`Spring Cloud Stream`: 使用Stream做消息驱动。  
+`Spring Cloud Gateway`: 使用Gateway做微服务网关。
 ## 项目结构
 * `micro-service-api`:这个模块是用来放置一些通用的依赖实体、接口。
 * `micro-service-auth`:这个模块是分布式的认证中心，包含Oauth2.0以及RBAC的权限控制。
