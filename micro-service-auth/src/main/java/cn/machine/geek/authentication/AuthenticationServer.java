@@ -22,10 +22,13 @@ import org.springframework.security.oauth2.provider.token.AuthorizationServerTok
 @Configuration
 @EnableAuthorizationServer
 public class AuthenticationServer extends AuthorizationServerConfigurerAdapter {
+    // 令牌
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
+    // 认证
     @Autowired
     private AuthenticationManager authenticationManager;
+    // 授权码
     @Autowired
     private AuthorizationCodeServices authorizationCodeServices;
 
@@ -50,7 +53,7 @@ public class AuthenticationServer extends AuthorizationServerConfigurerAdapter {
 
     /**
     * @Author: MachineGeek
-    * @Description: 端点配置
+    * @Description: Oauth端点配置
     * @Date: 2020/11/25
      * @param endpoints
     * @Return: void

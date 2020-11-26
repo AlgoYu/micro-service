@@ -20,7 +20,8 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
  * @Date: 2020/11/25
  */
 @Configuration
-public class SecurityConfig {
+public class OauthConfig {
+    // 客户端详情服务
     @Autowired
     private ClientDetailsService clientDetailsService;
 
@@ -38,7 +39,7 @@ public class SecurityConfig {
 
     /**
      * @Author: MachineGeek
-     * @Description: 注册Token服务
+     * @Description: 注册令牌管理服务
      * @Date: 2020/11/25
      * @param
      * @Return: org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices
@@ -46,10 +47,15 @@ public class SecurityConfig {
     @Bean
     public AuthorizationServerTokenServices authorizationServerTokenServices(){
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        // 客户端详情
         defaultTokenServices.setClientDetailsService(clientDetailsService);
+        // 开启Refresh Token
         defaultTokenServices.setSupportRefreshToken(true);
+        // Token存储策略
         defaultTokenServices.setTokenStore(this.tokenStore());
+        // Access Token 有效时间
         defaultTokenServices.setAccessTokenValiditySeconds(7200);
+        // 开启Refresh Token 有效时间
         defaultTokenServices.setRefreshTokenValiditySeconds(259200);
         return defaultTokenServices;
     }

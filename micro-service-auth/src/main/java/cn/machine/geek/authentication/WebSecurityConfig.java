@@ -1,6 +1,8 @@
 package cn.machine.geek.authentication;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -9,7 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 /**
 * @Author: MachineGeek
-* @Description: 安全配置类
+* @Description: Security安全配置类
 * @Email: 794763733@qq.com
 * @Date: 2020/10/3
 */
@@ -17,6 +19,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true,jsr250Enabled = true,prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     /** @Author: MachineGeek
      * @Description: 配置认证路径
@@ -34,11 +41,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 设置注销路径
                 .logout()
-                .logoutUrl("/logout")
                 .permitAll()
                 .and()
-                // 设置其余请求全部拦截
+                // 允许访问Oauth接口
                 .authorizeRequests()
+                // 设置其余请求全部拦截
                 .anyRequest()
                 .authenticated()
                 .and()
