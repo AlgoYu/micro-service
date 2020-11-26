@@ -48,7 +48,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         clients.inMemory()
                 .withClient("client")
                 .secret(bCryptPasswordEncoder.encode("secret"))
-                .resourceIds("res")
+                .resourceIds("RESOURCE")
                 .authorizedGrantTypes("authorization_code","password","client_credentials","implicit","refresh_token")
                 .scopes("all")
                 .autoApprove(false)
