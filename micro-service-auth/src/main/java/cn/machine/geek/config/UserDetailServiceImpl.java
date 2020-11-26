@@ -1,4 +1,4 @@
-package cn.machine.geek.authentication;
+package cn.machine.geek.config;
 
 import cn.machine.geek.entity.LoginUser;
 import cn.machine.geek.entity.SystemAuthority;
