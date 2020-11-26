@@ -1,4 +1,4 @@
-package cn.machine.geek.authentication;
+package cn.machine.geek.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +19,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true,jsr250Enabled = true,prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
@@ -34,23 +34,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 设置表单登录
-        http
+        http.csrf().disable()
                 // 关闭Session
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
-                // 设置注销路径
-                .logout()
-                .permitAll()
-                .and()
-                // 允许访问Oauth接口
                 .authorizeRequests()
-                // 设置其余请求全部拦截
-                .anyRequest()
-                .authenticated()
+                .anyRequest().permitAll()
                 .and()
-                // 开启跨域 关闭CSRF攻击
-                .cors().and()
-                .csrf().disable();
+                .formLogin()
+                .failureForwardUrl("http://www.baidu.com")
+                .and()
+                .logout();
     }
 }
