@@ -29,14 +29,19 @@ import java.util.Arrays;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
+    // 客户端详情
     @Autowired
     private ClientDetailsService clientDetailsService;
+    // Token存储策略
     @Autowired
     private TokenStore tokenStore;
+    // 验证码服务
     @Autowired
     private AuthorizationCodeServices authorizationCodeServices;
+    // 认证管理器
     @Autowired
     private AuthenticationManager authenticationManager;
+    // JWT转换器
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
     /**
@@ -61,12 +66,17 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     @Bean
     public AuthorizationServerTokenServices authorizationServerTokenServices(){
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        // 设置客户端详情
         defaultTokenServices.setClientDetailsService(clientDetailsService);
+        // 支持刷新Token
         defaultTokenServices.setSupportRefreshToken(true);
+        // 设置Token存储策略
         defaultTokenServices.setTokenStore(tokenStore);
+        // 令牌增强器
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter));
         defaultTokenServices.setTokenEnhancer(tokenEnhancerChain);
+        // 设置过期时间
         defaultTokenServices.setAccessTokenValiditySeconds(7200);
         defaultTokenServices.setRefreshTokenValiditySeconds(259200);
         return defaultTokenServices;

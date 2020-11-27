@@ -1,5 +1,9 @@
 server:
   port: 9999
+  servlet:
+    # session过期时间3分钟
+    session:
+      timeout: 180
 spring:
   # 允许bean覆盖
   main:
