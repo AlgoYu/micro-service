@@ -23,14 +23,14 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     /**
     * @Author: MachineGeek
-    * @Description: 注册JWT存储策略
+    * @Description: 注册令牌存储策略
     * @Date: 2020/11/27
      * @param
     * @Return: org.springframework.security.oauth2.provider.token.TokenStore
     */
     @Bean
     public TokenStore tokenStore(){
-        return new JwtTokenStore(jwtAccessTokenConverter());
+        return new JwtTokenStore(this.jwtAccessTokenConverter());
     }
 
     /**
