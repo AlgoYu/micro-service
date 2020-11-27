@@ -1,4 +1,4 @@
-package cn.machine.geek.config;
+package cn.machine.geek.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
  * @Author: MachineGeek
@@ -21,6 +22,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private static final String RESOURCE_ID = "RESOURCE";
     @Autowired
     private ResourceServerTokenServices resourceServerTokenServices;
+    @Autowired
+    private TokenStore tokenStore;
 
     /**
     * @Author: MachineGeek
@@ -32,7 +35,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.resourceId(RESOURCE_ID)
-                .tokenServices(resourceServerTokenServices)
+                .tokenStore(tokenStore)
+//                .tokenServices(resourceServerTokenServices)
                 .stateless(true);
     }
 

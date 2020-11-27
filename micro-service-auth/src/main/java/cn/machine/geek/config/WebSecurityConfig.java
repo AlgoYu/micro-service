@@ -19,6 +19,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true,jsr250Enabled = true,prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    /**
+    * @Author: MachineGeek
+    * @Description: 注册认证管理器
+    * @Date: 2020/11/27
+     * @param
+    * @Return: org.springframework.security.authentication.AuthenticationManager
+    */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -43,7 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .failureForwardUrl("http://www.baidu.com")
                 .and()
                 .logout();
     }

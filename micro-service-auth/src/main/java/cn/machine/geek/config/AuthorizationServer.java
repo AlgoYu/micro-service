@@ -15,7 +15,11 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.Arrays;
 
 /**
  * @Author: MachineGeek
@@ -36,6 +40,8 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     private AuthorizationCodeServices authorizationCodeServices;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
     /**
     * @Author: MachineGeek
     * @Description: 客户端详情
@@ -68,6 +74,9 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
         defaultTokenServices.setClientDetailsService(clientDetailsService);
         defaultTokenServices.setSupportRefreshToken(true);
         defaultTokenServices.setTokenStore(tokenStore);
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter));
+        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain);
         defaultTokenServices.setAccessTokenValiditySeconds(7200);
         defaultTokenServices.setRefreshTokenValiditySeconds(259200);
         return defaultTokenServices;
