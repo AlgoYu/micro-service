@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -31,8 +30,6 @@ import java.util.Arrays;
 @EnableAuthorizationServer
 public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
     private ClientDetailsService clientDetailsService;
     @Autowired
     private TokenStore tokenStore;
@@ -51,14 +48,7 @@ public class AuthorizationServer extends AuthorizationServerConfigurerAdapter {
     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient("client")
-                .secret(bCryptPasswordEncoder.encode("secret"))
-                .resourceIds("RESOURCE")
-                .authorizedGrantTypes("authorization_code","password","client_credentials","implicit","refresh_token")
-                .scopes("all")
-                .autoApprove(false)
-                .redirectUris("http://www.baidu.com");
+        clients.withClientDetails(clientDetailsService);
     }
 
     /**
