@@ -19,6 +19,24 @@
 7. `Sentinel-Dashboard`
 8. `RabbitMQ`
 9. `SeataServer`
+## Docker快速启动
+```terminal
+// 启动Redis容器
+docker run -d --name dev-redis -p 6379:6379 --restart=always redis:latest --requirepass 123456
+// 启动MySQL容器
+docker run -d --name dev-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --restart=always mysql:latest
+// 启动Nacos容器
+docker run -d --name dev-nacos -e MODE=standalone -e NACOS_APPLICATION_PORT=8848 -p 8848:8848 --restart=always nacos/nacos-server:latest
+// 启动Sentinel容器
+docker run -d --name dev-sentinel -p 8858:8858 --restart=always bladex/sentinel-dashboard:latest
+// 启动Zipkin容器
+docker run -d --name dev-zipkin -p 9411:9411 --restart=always openzipkin/zipkin:latest
+// 启动Seata容器
+docker run -d --name dev-seata -p 8091:8091 --restart=always seataio/seata-server
+p 8091:8091 --restart=always seataio/seata-server:latest
+// 启动RabbitMQ容器
+docker run -d --name dev-rabbit -p 15672:15672 -p 5672:5672 --restart=always rabbitmq:management
+```
 ## 特性
 1. 项目结构清晰的分层，每个模块目标明确，代码注释详细，可以清晰的明白每个模块和类的作用。
 2. 集成了常见的应用开发的框架，加入了许多的常见配置，并注册到了`IOC`容器中，使用时直接`@Autowired`即可。
