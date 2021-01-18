@@ -6,9 +6,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @Author: MachineGeek
- * @Description: 认证中心启动类
+ * @Description: 认证服务
  * @Email: 794763733@qq.com
- * @Date: 2020/11/25
+ * @Date: 2021/1/18
  */
 @EnableDiscoveryClient
 @SpringBootApplication
