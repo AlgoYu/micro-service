@@ -21,21 +21,18 @@
 9. `SeataServer`
 ## Docker快速启动
 ```terminal
+// Docker创建自定义桥接网络mynet
+docker network create --driver bridge --subnet 172.100.0.0/24 --gateway 172.100.0.1 mynet
+// 启动MySQL容器（无数据卷）
+docker run -d --name dev-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --net mynet --ip 172.100.0.2 --restart=always mysql:latest
 // 启动Redis容器
-docker run -d --name dev-redis -p 6379:6379 --restart=always redis:latest --requirepass 123456
-// 启动MySQL容器
-docker run -d --name dev-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --restart=always mysql:latest
-// 启动Nacos容器
-docker run -d --name dev-nacos -e MODE=standalone -e NACOS_APPLICATION_PORT=8848 -p 8848:8848 --restart=always nacos/nacos-server:latest
+docker run -d --name dev-redis -p 6379:6379 --net mynet --ip 172.100.0.3 --restart=always redis:latest --requirepass 123456
+// 启动nacos容器（独立mysql版本，需要在mysql中运行好nacos官方提供的DDL语句）
+docker run -d --name dev-nacos -e MODE=standalone -e MYSQL_SERVICE_DB_NAME=nacos -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=123456 -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=172.100.0.2 -e MYSQL_DATABASE_NUM=1 -p 8848:8848 --net mynet --ip 172.100.0.4 --restart=always nacos/nacos-server:latest
 // 启动Sentinel容器
-docker run -d --name dev-sentinel -p 8858:8858 --restart=always bladex/sentinel-dashboard:latest
-// 启动Zipkin容器
-docker run -d --name dev-zipkin -p 9411:9411 --restart=always openzipkin/zipkin:latest
-// 启动Seata容器
-docker run -d --name dev-seata -p 8091:8091 --restart=always seataio/seata-server
-p 8091:8091 --restart=always seataio/seata-server:latest
-// 启动RabbitMQ容器
-docker run -d --name dev-rabbit -p 15672:15672 -p 5672:5672 --restart=always rabbitmq:management
+docker run -d --name dev-sentinel -p 8858:8858 -p 8719:8719 --net mynet --ip 172.100.0.5 --restart=always bladex/sentinel-dashboard:latest
+// 启动zipkin容器
+docker run -d --name dev-zipkin -p 9411:9411 --net mynet --ip 172.100.0.6 --restart=always --restart=always openzipkin/zipkin:latest
 ```
 ## 特性
 1. 项目结构清晰的分层，每个模块目标明确，代码注释详细，可以清晰的明白每个模块和类的作用。
