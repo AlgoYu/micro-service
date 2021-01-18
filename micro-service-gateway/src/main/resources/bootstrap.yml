@@ -2,25 +2,12 @@ server:
   port: 10000
 spring:
   cloud:
-    gateway:
-      discovery:
-        locator:
-          enabled: true
+    # 配置中心
     nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
       config:
         server-addr: 127.0.0.1:8848
         file-extension: yaml
         group: DEV
-    sentinel:
-      transport:
-        dashboard: 127.0.0.1:8858
-        port: 8719
+  # 服务名称
   application:
     name: MICRO-GATEWAY-SERVICE
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'

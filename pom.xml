@@ -22,7 +22,6 @@
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
         <!-- 框架版本管理 -->
-        <mysql.version>8.0.22</mysql.version>
         <druid.version>1.2.3</druid.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <guava.version>30.0-jre</guava.version>
@@ -55,11 +54,6 @@
                 <scope>import</scope>
             </dependency>
             <!-- 其他框架依赖管理 -->
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
