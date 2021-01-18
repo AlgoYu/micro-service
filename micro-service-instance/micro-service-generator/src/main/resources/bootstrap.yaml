@@ -1,0 +1,71 @@
+server:
+  port: 9999
+spring:
+  # 允许bean覆盖
+  main:
+    allow-bean-definition-overriding: true
+  # 链路追踪
+  zipkin:
+    base-url: http://localhost:9411
+    sleuth:
+      sampler:
+        probability: 1
+  cloud:
+    # 注册中心
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+        group: DEV
+    # 熔断限流降级
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8858
+        port: 8719
+  # 服务名称
+  application:
+    name: MICRO-GENERATOR-SERVICE
+  # 数据源
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/micro_service?useUnicode=true&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    # 连接池
+    druid:
+      # 最小空闲
+      min-idle: 5
+      # 最大存活连接
+      max-active: 20
+      # 初始化连接数
+      initial-size: 5
+      # 配置监控服务器
+      stat-view-servlet:
+        #是否允许开启监控
+        enabled: true
+        #是否允许重置监控数据
+        reset-enable: true
+        #druid访问路径
+        url-pattern: /druid/*
+      # 监控统计过滤器
+      filters: stat,wall,log4j2
+      # 检查关闭空闲连接的时间周期
+      time-between-eviction-runs-millis: 6000
+      # mergeSql，慢SQL记录
+      connect-properties: druid.state.mergeSql=true
+# 暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+# Mybatis Plus
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-enums-package: cn.machine.geek.enums
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 代码生成器生成路径
+generate-path: /Users/xiaoyu/Desktop/生成
