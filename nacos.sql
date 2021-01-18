@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Docker-MySQL
+ Source Server         : DevMYSQL
  Source Server Type    : MySQL
  Source Server Version : 80022
- Source Host           : 192.168.12.222:3306
+ Source Host           : localhost:3306
  Source Schema         : nacos
 
  Target Server Type    : MySQL
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 27/11/2020 19:15:46
+ Date: 18/01/2021 10:10:07
 */
 
 SET NAMES utf8mb4;
@@ -30,7 +30,7 @@ CREATE TABLE `config_info` (
   `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
   `src_user` text COLLATE utf8_bin COMMENT 'source user',
-  `src_ip` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'source ip',
+  `src_ip` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT 'source ip',
   `app_name` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   `tenant_id` varchar(128) COLLATE utf8_bin DEFAULT '' COMMENT '租户字段',
   `c_desc` varchar(256) COLLATE utf8_bin DEFAULT NULL,
@@ -40,16 +40,12 @@ CREATE TABLE `config_info` (
   `c_schema` text COLLATE utf8_bin,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_configinfo_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info';
 
 -- ----------------------------
 -- Records of config_info
 -- ----------------------------
 BEGIN;
-INSERT INTO `config_info` VALUES (2, 'MICRO-PROVIDER-SERVICE.yaml', 'DEV', 'instance:\n    name: \'服务提供者\'', '3f6a4e2087f1d331a3eda83e1b88ea1b', '2020-11-23 09:14:09', '2020-11-23 09:14:09', NULL, '172.17.0.1', '', '', '服务提供者配置', NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info` VALUES (3, 'MICRO-CONSUMER-SERVICE.yaml', 'DEV', 'instance:\n    name: \'服务消费者\'', '8c21bd046ab1cd3efc96158e0295ea8a', '2020-11-23 09:18:58', '2020-11-23 09:18:58', NULL, '172.17.0.1', '', '', '服务消费者配置', NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info` VALUES (9, 'MICRO-GATEWAY-SERVICE.yaml', 'DEV', 'instance:\n    name: \'微服务网关\'\nspring:\n    cloud:\n        gateway:\n            routes:\n            - id: AUTH-ROUTH\n              uri: lb://MICRO-AUTH-SERVICE\n              predicates:\n              - Path=/*,/oauth/**,/login,/logout\n            - id: PROVIDER-ROUTH\n              uri: lb://MICRO-PROVIDER-SERVICE\n              predicates:\n              - Path=/provider/**\n            - id: CONSUMER-ROUTH\n              uri: lb://MICRO-CONSUMER-SERVICE\n              predicates:\n              - Path=/consumer/**', 'df001a847fd8ac152dd452fb265ef6bb', '2020-11-24 03:20:21', '2020-11-27 09:27:04', NULL, '172.17.0.1', '', '', '', '', '', 'yaml', '');
-INSERT INTO `config_info` VALUES (11, 'MICRO-AUTH-SERVICE.yaml', 'DEV', 'instance:\n    name: \'微服务认证中心\'', '3935e4654320047cb639e6e1f34d6e1e', '2020-11-25 09:13:16', '2020-11-25 09:13:42', NULL, '172.17.0.1', '', '', '', '', '', 'yaml', '');
 COMMIT;
 
 -- ----------------------------
@@ -90,7 +86,7 @@ CREATE TABLE `config_info_beta` (
   `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
   `src_user` text COLLATE utf8_bin COMMENT 'source user',
-  `src_ip` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'source ip',
+  `src_ip` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT 'source ip',
   `tenant_id` varchar(128) COLLATE utf8_bin DEFAULT '' COMMENT '租户字段',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_configinfobeta_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
@@ -118,7 +114,7 @@ CREATE TABLE `config_info_tag` (
   `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
   `src_user` text COLLATE utf8_bin COMMENT 'source user',
-  `src_ip` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'source ip',
+  `src_ip` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT 'source ip',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_configinfotag_datagrouptenanttag` (`data_id`,`group_id`,`tenant_id`,`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info_tag';
@@ -192,14 +188,14 @@ CREATE TABLE `his_config_info` (
   `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `src_user` text COLLATE utf8_bin,
-  `src_ip` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `src_ip` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `op_type` char(10) COLLATE utf8_bin DEFAULT NULL,
   `tenant_id` varchar(128) COLLATE utf8_bin DEFAULT '' COMMENT '租户字段',
   PRIMARY KEY (`nid`),
   KEY `idx_gmt_create` (`gmt_create`),
   KEY `idx_gmt_modified` (`gmt_modified`),
   KEY `idx_did` (`data_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='多租户改造';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='多租户改造';
 
 -- ----------------------------
 -- Records of his_config_info
@@ -282,7 +278,7 @@ CREATE TABLE `tenant_info` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_tenant_info_kptenantid` (`kp`,`tenant_id`),
   KEY `idx_tenant_id` (`tenant_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='tenant_info';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='tenant_info';
 
 -- ----------------------------
 -- Records of tenant_info
