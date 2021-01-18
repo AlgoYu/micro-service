@@ -12,7 +12,6 @@ import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,6 @@ import java.util.Map;
  * @Email: 794763733@qq.com
  * @Date: 2021/1/7
  */
-@Api(tags = "角色接口")
 @RestController
 @RequestMapping("/role")
 public class RoleController {
