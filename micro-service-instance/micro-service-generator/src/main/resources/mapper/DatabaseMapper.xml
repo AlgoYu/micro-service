@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.machine.geek.mapper.DatabaseMapper">
+    <!-- 数据表查询映射结果 -->
+    <resultMap id="DatabaseTableResultMap" type="cn.machine.geek.entity.DatabaseTable">
+        <result column="TABLE_NAME" property="tableName" />
+        <result column="ENGINE" property="engine" />
+        <result column="TABLE_COMMENT" property="tableComment" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+    <!-- 列查询映射结果 -->
+    <resultMap id="DatabaseTableColumnResultMap" type="cn.machine.geek.entity.DatabaseTableColumn">
+        <result column="column_name" property="columnName" />
+        <result column="data_type" property="dataType" />
+        <result column="column_comment" property="columnComment" />
+        <result column="column_key" property="columnKey" />
+    </resultMap>
+    <!-- 查询所有数据库信息 -->
+    <select id="listDatabase" resultType="java.lang.String">
+        SHOW DATABASES
+    </select>
+    <!-- 查询当前数据库 -->
+    <select id="getCurrentDatabase" resultType="java.lang.String">
+        SELECT DATABASE();
+    </select>
+    <!-- 通过数据库名查询所有数据表信息 -->
+    <select id="pagingTableByDatabaseName" resultMap="DatabaseTableResultMap">
+        SELECT
+            TABLE_NAME, ENGINE, TABLE_COMMENT,CREATE_TIME
+        FROM
+            INFORMATION_SCHEMA.TABLES
+        WHERE
+            TABLE_SCHEMA=#{databaseName}
+            AND
+            (
+                TABLE_NAME LIKE '%${keyWord}%'
+                OR
+                TABLE_COMMENT LIKE '%${keyWord}%'
+            )
+    </select>
+    <!-- 通过表名查询所有列的信息 -->
+    <select id="listColumnByTableName" resultMap="DatabaseTableColumnResultMap">
+        SELECT COLUMN_NAME,DATA_TYPE,COLUMN_COMMENT,COLUMN_KEY FROM information_schema.columns WHERE TABLE_NAME=#{tableName} ORDER BY CASE WHEN COLUMN_KEY='PRI' THEN 0 ELSE 1 END ASC;
+    </select>
+</mapper>
