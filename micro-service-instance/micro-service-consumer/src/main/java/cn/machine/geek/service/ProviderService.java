@@ -1,6 +1,6 @@
 package cn.machine.geek.service;
 
-import cn.machine.geek.dto.R;
+import cn.machine.geek.common.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;

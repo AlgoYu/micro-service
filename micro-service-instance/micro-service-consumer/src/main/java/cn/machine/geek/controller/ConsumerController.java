@@ -1,11 +1,10 @@
 package cn.machine.geek.controller;
 
-import cn.machine.geek.dto.R;
+import cn.machine.geek.common.R;
 import cn.machine.geek.service.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,6 @@ public class ConsumerController {
     private ProviderService providerService;
 
     @GetMapping(value = "/get")
-    @PreAuthorize("hasAuthority('DEVELOP:GENERATOR:GENERATE')")
     public R get(){
         return providerService.get();
     }
@@ -41,7 +39,6 @@ public class ConsumerController {
     }
 
     @GetMapping(value = "/withoutAuthority")
-    @PreAuthorize("hasAuthority('NOT')")
     public R withoutAuthority(){
         return R.ok();
     }

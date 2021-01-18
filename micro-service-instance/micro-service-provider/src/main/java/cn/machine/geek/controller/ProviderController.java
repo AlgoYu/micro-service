@@ -1,6 +1,6 @@
 package cn.machine.geek.controller;
 
-import cn.machine.geek.dto.R;
+import cn.machine.geek.common.R;
 import cn.machine.geek.service.SendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
