@@ -39,6 +39,14 @@ docker run -d --name dev-sentinel -p 8858:8858 -p 8719:8719 --net mynet --ip 172
 // 启动zipkin容器
 docker run -d --name dev-zipkin -p 9411:9411 --net mynet --ip 172.100.0.6 --restart=always --restart=always openzipkin/zipkin:latest
 ```
+## RSA生成
+```terminal
+// 生成私钥
+keytool -genkeypair -alias MachineGeek -keyalg RSA -keypass MachineGeek -keystore MachineGeek.jks -validity 365 -storepass MachineGeek
+
+// 根据私钥生成公钥
+keytool -list -rfc --keystore MachineGeek.jks | openssl x509 -inform pem -pubkey
+```
 ## 特性
 1. 项目结构清晰的分层，每个模块目标明确，代码注释详细，可以清晰的明白每个模块和类的作用。
 2. 集成了常见的应用开发的框架，加入了许多的常见配置，并注册到了`IOC`容器中，使用时直接`@Autowired`即可。

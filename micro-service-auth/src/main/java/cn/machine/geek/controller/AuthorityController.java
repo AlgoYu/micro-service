@@ -85,6 +85,7 @@ public class AuthorityController {
     */
     @GetMapping("/getMyAuthorities")
     public R getMyAuthorities(){
+        SecurityContextHolder.getContext().getAuthentication();
         // 获取当前用户ID
         CustomUserDetail customUserDetail = (CustomUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // 获取当前用户的所有权限

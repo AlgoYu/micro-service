@@ -3,9 +3,11 @@ package cn.machine.geek.oauth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -15,11 +17,18 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.util.FileCopyUtils;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: MachineGeek
@@ -42,8 +51,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     // 数据源
     @Autowired
     private DataSource dataSource;
-    // 对称加密的秘钥
-    private static final String SECRET = "MachineGeek";
+    @Autowired
+    private CustomTokenEnhancer CustomTokenEnhancer;
 
     /**
      * @Author: MachineGeek
@@ -84,7 +93,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
     * @Author: MachineGeek
-    * @Description: JWT转换器
+    * @Description: JWT转换器加载私钥和公钥
     * @Date: 2021/1/19
      * @param
     * @Return: org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
@@ -92,8 +101,36 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(SECRET);
+        // 加载私钥和公钥
+        ClassPathResource preKey = new ClassPathResource("MachineGeek.jks");
+        ClassPathResource pubKey = new ClassPathResource("MachineGeek.pub");
+        // 设置私钥
+        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(preKey,"MachineGeek".toCharArray());
+        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("MachineGeek","MachineGeek".toCharArray()));
+        // 设置公钥
+        try {
+            String pubStr = new String(FileCopyUtils.copyToByteArray(pubKey.getInputStream()));
+            converter.setVerifier(new RsaVerifier(pubStr));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return converter;
+    }
+
+    /**
+    * @Author: MachineGeek
+    * @Description: Token增强链
+    * @Date: 2021/1/19
+     * @param
+    * @Return: org.springframework.security.oauth2.provider.token.TokenEnhancerChain
+    */
+    public TokenEnhancerChain tokenEnhancerChain(){
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
+        tokenEnhancers.add(CustomTokenEnhancer);
+        tokenEnhancers.add(accessTokenConverter());
+        tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
+        return tokenEnhancerChain;
     }
 
     /**
@@ -111,7 +148,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
     * @Author: MachineGeek
-    * @Description: 配置认证管理器、JDBC授权码、用户服务、JWT存储策略、JWT转换器
+    * @Description: 配置认证管理器、JDBC授权码、用户服务、JWT存储策略、Token增强链
     * @Date: 2021/1/18
      * @param endpoints
     * @Return: void
@@ -126,8 +163,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .userDetailsService(userDetailsService)
                 // Token存储策略为JWT
                 .tokenStore(tokenStore())
-                // JWT转换器
-                .accessTokenConverter(accessTokenConverter());
+                // Token增强链
+                .tokenEnhancer(tokenEnhancerChain());
     }
 
     /**
