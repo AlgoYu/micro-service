@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.machine.geek.mapper.AuthorityMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.machine.geek.entity.Authority">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="key" property="key" />
+        <result column="pid" property="pid" />
+        <result column="sort" property="sort" />
+        <result column="uri" property="uri" />
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `id`,`name`,`key`,`pid`,`sort`,`uri`
+    </sql>
+    <!-- 根据用户ID查询权力 -->
+    <select id="selectByAccountId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM
+        authority
+        INNER JOIN role_authority_relation ON role_authority_relation.authority_id = authority.id
+        INNER JOIN account_role_relation ON account_role_relation.role_id = role_authority_relation.role_id
+        WHERE
+        account_role_relation.account_id = #{accountId}
+        ORDER BY authority.sort DESC
+    </select>
+    <!-- 根据角色ID查询权力 -->
+    <select id="selectByRoleId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM
+        authority
+        INNER JOIN role_authority_relation ON role_authority_relation.authority_id = authority.id
+        WHERE
+        role_authority_relation.role_id = #{roleId}
+        ORDER BY authority.sort DESC
+    </select>
+</mapper>
