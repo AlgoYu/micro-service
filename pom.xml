@@ -25,6 +25,7 @@
         <druid.version>1.2.3</druid.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <guava.version>30.0-jre</guava.version>
+        <jwt.version>3.12.0</jwt.version>
     </properties>
 
     <dependencyManagement>
