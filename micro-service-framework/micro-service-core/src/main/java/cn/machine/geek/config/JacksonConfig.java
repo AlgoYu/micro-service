@@ -10,7 +10,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 /**
  * @Author: MachineGeek
- * @Description:
+ * @Description: Jackson配置
  * @Email: 794763733@qq.com
  * @Date: 2021/1/7
  */

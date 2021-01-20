@@ -15,7 +15,6 @@
         <module>micro-service-core</module>
         <module>micro-service-data</module>
         <module>micro-service-common</module>
-        <module>micro-service-security</module>
     </modules>
 
 </project>

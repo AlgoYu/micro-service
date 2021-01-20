@@ -8,7 +8,6 @@ import cn.machine.geek.entity.AccountRoleRelation;
 import cn.machine.geek.service.AccountRoleRelationService;
 import cn.machine.geek.service.AccountService;
 import cn.machine.geek.service.RoleService;
-import cn.machine.geek.util.HttpUtil;
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -87,7 +86,7 @@ public class AccountController {
     @Transactional
     public R add(@RequestBody AccountRole accountRole, HttpServletRequest httpServletRequest){
         accountRole.setCreateTime(LocalDateTime.now());
-        accountRole.setIp(HttpUtil.getIpAddr(httpServletRequest));
+//        accountRole.setIp(HttpUtil.getIpAddr(httpServletRequest));
         accountRole.setPassword(passwordEncoder.encode(accountRole.getPassword()));
         accountRole.setEnable(false);
         accountService.save(accountRole);

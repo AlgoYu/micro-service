@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -24,7 +23,6 @@ import java.io.IOException;
  */
 @Configuration
 @EnableResourceServer
-@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private TokenStore tokenStore;
@@ -32,7 +30,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     /**
      * @Author: MachineGeek
-     * @Description: 注册JWT存储
+     * @Description: 注册Token存储策略为JWT
      * @Date: 2021/1/18
      * @Return: org.springframework.security.oauth2.provider.token.TokenStore
      */
@@ -43,7 +41,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     /**
      * @Author: MachineGeek
-     * @Description: JWT转换器加载私钥和公钥
+     * @Description: JWT转换器加载公钥
      * @Date: 2021/1/19
      * @param
      * @Return: org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
