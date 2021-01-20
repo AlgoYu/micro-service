@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>micro-service-generator</module>
-        <module>micro-service-test</module>
         <module>micro-service-center</module>
     </modules>
 
