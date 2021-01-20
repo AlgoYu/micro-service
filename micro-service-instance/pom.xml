@@ -12,8 +12,6 @@
     <artifactId>micro-service-instance</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>micro-service-provider</module>
-        <module>micro-service-consumer</module>
         <module>micro-service-generator</module>
     </modules>
 

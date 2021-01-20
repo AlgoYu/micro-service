@@ -13,7 +13,6 @@
         <module>micro-service-instance</module>
         <module>micro-service-gateway</module>
         <module>micro-service-auth</module>
-        <module>micro-service-api</module>
     </modules>
 
     <properties>
