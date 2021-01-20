@@ -51,6 +51,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     // 数据源
     @Autowired
     private DataSource dataSource;
+    // 自定义JWT内容
     @Autowired
     private CustomTokenEnhancer CustomTokenEnhancer;
 
@@ -70,7 +71,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
     * @Author: MachineGeek
-    * @Description: 配置JDBC授权码
+    * @Description: 配置JDBC密码模式的授权码
     * @Date: 2021/1/19
      * @param
     * @Return: org.springframework.security.oauth2.provider.code.AuthorizationCodeServices
@@ -82,7 +83,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
      * @Author: MachineGeek
-     * @Description: 注册JWT存储
+     * @Description: 注册Token的JWT存储
      * @Date: 2021/1/18
      * @Return: org.springframework.security.oauth2.provider.token.TokenStore
      */
