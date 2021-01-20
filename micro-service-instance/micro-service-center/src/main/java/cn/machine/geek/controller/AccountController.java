@@ -14,6 +14,8 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -84,9 +86,10 @@ public class AccountController {
     */
     @PostMapping("/add")
     @Transactional
-    public R add(@RequestBody AccountRole accountRole, HttpServletRequest httpServletRequest){
+    public R add(@RequestBody AccountRole accountRole, HttpServletRequest httpServletRequest, OAuth2Authentication oAuth2Authentication){
+        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) oAuth2Authentication.getDetails();
         accountRole.setCreateTime(LocalDateTime.now());
-//        accountRole.setIp(HttpUtil.getIpAddr(httpServletRequest));
+        accountRole.setIp(oAuth2AuthenticationDetails.getRemoteAddress());
         accountRole.setPassword(passwordEncoder.encode(accountRole.getPassword()));
         accountRole.setEnable(false);
         accountService.save(accountRole);

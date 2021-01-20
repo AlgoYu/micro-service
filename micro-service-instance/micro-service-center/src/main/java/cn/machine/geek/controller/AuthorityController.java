@@ -4,14 +4,16 @@ import cn.machine.geek.common.P;
 import cn.machine.geek.common.R;
 import cn.machine.geek.dto.AuthorityTree;
 import cn.machine.geek.entity.Authority;
-import cn.machine.geek.oauth.CustomUserDetail;
 import cn.machine.geek.service.AuthorityService;
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +31,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/authority")
 public class AuthorityController {
+    @Autowired
+    private TokenStore tokenStore;
     @Autowired
     private AuthorityService authorityService;
 
@@ -84,12 +88,13 @@ public class AuthorityController {
     * @Return: cn.machine.geek.common.R
     */
     @GetMapping("/getMyAuthorities")
-    public R getMyAuthorities(){
-        SecurityContextHolder.getContext().getAuthentication();
+    public R getMyAuthorities(OAuth2Authentication oAuth2Authentication){
         // 获取当前用户ID
-        CustomUserDetail customUserDetail = (CustomUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) oAuth2Authentication.getDetails();
+        OAuth2AccessToken token = tokenStore
+                .readAccessToken(oAuth2AuthenticationDetails.getTokenValue());
         // 获取当前用户的所有权限
-        List<Authority> authorities = authorityService.listByAccountId(customUserDetail.getId());
+        List<Authority> authorities = authorityService.listByAccountId(Long.valueOf((String) token.getAdditionalInformation().get("id")));
         // 把权限分为路由权限和API权限
         List<Authority> routes = new ArrayList<>();
         List<Authority> apis = new ArrayList<>();

@@ -7,7 +7,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -23,10 +22,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
-import org.springframework.util.FileCopyUtils;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +91,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
     * @Author: MachineGeek
-    * @Description: JWT转换器加载私钥和公钥
+    * @Description: JWT转换器加载私钥
     * @Date: 2021/1/19
      * @param
     * @Return: org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
@@ -102,19 +99,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        // 加载私钥和公钥
+        // 加载私钥
         ClassPathResource preKey = new ClassPathResource("MachineGeek.jks");
-        ClassPathResource pubKey = new ClassPathResource("MachineGeek.pub");
         // 设置私钥
         KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(preKey,"MachineGeek".toCharArray());
         converter.setKeyPair(keyStoreKeyFactory.getKeyPair("MachineGeek","MachineGeek".toCharArray()));
-        // 设置公钥
-        try {
-            String pubStr = new String(FileCopyUtils.copyToByteArray(pubKey.getInputStream()));
-            converter.setVerifier(new RsaVerifier(pubStr));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return converter;
     }
 
