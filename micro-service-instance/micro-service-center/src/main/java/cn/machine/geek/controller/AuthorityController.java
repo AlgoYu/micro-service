@@ -93,8 +93,9 @@ public class AuthorityController {
         OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) oAuth2Authentication.getDetails();
         OAuth2AccessToken token = tokenStore
                 .readAccessToken(oAuth2AuthenticationDetails.getTokenValue());
+        Long id = (Long) token.getAdditionalInformation().get("id");
         // 获取当前用户的所有权限
-        List<Authority> authorities = authorityService.listByAccountId(Long.valueOf((String) token.getAdditionalInformation().get("id")));
+        List<Authority> authorities = authorityService.listByAccountId(id);
         // 把权限分为路由权限和API权限
         List<Authority> routes = new ArrayList<>();
         List<Authority> apis = new ArrayList<>();
