@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Docker-MySQL
+ Source Server         : DevMYSQL
  Source Server Type    : MySQL
  Source Server Version : 80022
- Source Host           : 127.0.0.1:3306
+ Source Host           : localhost:3306
  Source Schema         : micro_service
 
  Target Server Type    : MySQL
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 21/01/2021 17:23:30
+ Date: 21/01/2021 23:26:19
 */
 
 SET NAMES utf8mb4;
@@ -219,6 +219,27 @@ INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452423);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452424);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452425);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for undo_log
+-- ----------------------------
+DROP TABLE IF EXISTS `undo_log`;
+CREATE TABLE `undo_log` (
+  `branch_id` bigint NOT NULL COMMENT 'branch transaction id',
+  `xid` varchar(100) NOT NULL COMMENT 'global transaction id',
+  `context` varchar(128) NOT NULL COMMENT 'undo_log context,such as serialization',
+  `rollback_info` longblob NOT NULL COMMENT 'rollback info',
+  `log_status` int NOT NULL COMMENT '0:normal status,1:defense status',
+  `log_created` datetime(6) NOT NULL COMMENT 'create datetime',
+  `log_modified` datetime(6) NOT NULL COMMENT 'modify datetime',
+  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='AT transaction mode undo table';
+
+-- ----------------------------
+-- Records of undo_log
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

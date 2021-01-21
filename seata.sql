@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Docker-MySQL
+ Source Server         : DevMYSQL
  Source Server Type    : MySQL
  Source Server Version : 80022
- Source Host           : 127.0.0.1:3306
+ Source Host           : localhost:3306
  Source Schema         : seata
 
  Target Server Type    : MySQL
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 21/01/2021 17:24:37
+ Date: 21/01/2021 23:26:39
 */
 
 SET NAMES utf8mb4;
