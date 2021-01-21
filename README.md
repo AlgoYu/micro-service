@@ -21,16 +21,19 @@
 9. `SeataServer`
 ## Docker快速启动
 ```terminal
-// Docker创建自定义桥接网络mynet
+// Docker创建自定义桥接网络mynet（方便容器互连）
 docker network create --driver bridge --subnet 172.100.0.0/24 --gateway 172.100.0.1 mynet
 
-// 启动MySQL容器（无数据卷）
+// 启动MySQL容器（无数据卷,需要的话自己加，记得创建相应的数据库，SQL文件在项目的根目录下。）
 docker run -d --name dev-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --net mynet --ip 172.100.0.2 --restart=always mysql:latest
+- micro_service.sql   这个是后端Oauth2和RBAC必备的SQL文件
+- nacos.sql    这个是Nacos的SQL文件，里面包含了所有服务的配置以及Seata的配置
+- seata.sql    这个是Seata的SQL文件，分布式事务需要用到
 
 // 启动Redis容器
 docker run -d --name dev-redis -p 6379:6379 --net mynet --ip 172.100.0.3 --restart=always redis:latest --requirepass 123456
 
-// 启动nacos容器（独立mysql版本，需要在mysql中运行好nacos官方提供的DDL语句）
+// 启动nacos容器（连接mysql的nacos数据库）
 docker run -d --name dev-nacos -e MODE=standalone -e MYSQL_SERVICE_DB_NAME=nacos -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=123456 -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=172.100.0.2 -e MYSQL_DATABASE_NUM=1 -p 8848:8848 --net mynet --ip 172.100.0.4 --restart=always nacos/nacos-server:latest
 
 // 启动Sentinel容器
@@ -38,6 +41,15 @@ docker run -d --name dev-sentinel -p 8858:8858 -p 8719:8719 --net mynet --ip 172
 
 // 启动zipkin容器
 docker run -d --name dev-zipkin -p 9411:9411 --net mynet --ip 172.100.0.6 --restart=always --restart=always openzipkin/zipkin:latest
+
+// 启动Seata容器(注册到Nacos，并从nacos读取配置，nacos中有seata的配置，包含了mysql连接信息)
+docker run -d --name dev-seata -p 8091:8091 --net mynet --ip 172.100.0.7 --restart=always seataio/seata-server:latest
+// 拷贝registry.conf到seata容器中
+docker cp 项目路径/registry.conf dev-seata:seata-server/resources/
+// 重启seata容器
+docker restart dev-seata
+// 查看日志
+docker logs dev-seata
 ```
 ## RSA生成
 ```terminal
@@ -51,7 +63,7 @@ keytool -list -rfc --keystore MachineGeek.jks | openssl x509 -inform pem -pubkey
 1. 项目结构清晰的分层，每个模块目标明确，代码注释详细，可以清晰的明白每个模块和类的作用。
 2. 集成了常见的应用开发的框架，加入了许多的常见配置，并注册到了`IOC`容器中，使用时直接`@Autowired`即可。
 3. 提供了常见的Service接口与实现类，如文件上传、图形验证码、邮件发送……等，无需再次开发。
-4. `分布式认证中心`：已经编写好的认证中心、`RBAC`已经集成、只需要加相应的注解即可，集成`OAuth2.0`做开放平台。
+4. `分布式认证中心`：已经编写好的认证中心、`RBAC`已经集成、只需要加相应的注解即可，`OAuth2.0`为认证方式，`Token`存储策略为`JWT`，加密算法使用`RSA`。
 5. `Alibaba`一站式的微服务解决方案集成并封装成了模块。
 6. `WebSocket`集成，提供了接口可以注入轻松发送，搭配了`Redis`的订阅发布，集群状态下也无需担心连接发送不到的问题。
 7. `代码生成器`可以一键生成`实体类`、`映射类`、`xml文件`、`服务接口`、`服务实现类`、`控制器`、`前端数据表页面`、`API文件`等等，使用的模板引擎，可以自定义自己的代码生成工具。

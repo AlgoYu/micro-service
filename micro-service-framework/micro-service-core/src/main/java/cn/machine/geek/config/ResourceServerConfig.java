@@ -88,7 +88,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement()
+        http
+                .httpBasic().disable()
+                .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling()
