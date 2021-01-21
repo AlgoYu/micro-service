@@ -6,7 +6,6 @@ import cn.machine.geek.service.DatabaseService;
 import cn.machine.geek.util.CodeGenerator;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +30,6 @@ public class CodeGeneratorController {
     @Autowired
     private CodeGenerator codeGenerator;
 
-    @PreAuthorize("hasAuthority('GEASD')")
     @GetMapping(value = "/paging")
     public R paging(@Validated P p){
         return R.ok(databaseService.paging(p.getPage(),p.getSize(),p.getKeyword()));

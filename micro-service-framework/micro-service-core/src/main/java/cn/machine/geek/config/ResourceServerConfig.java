@@ -1,5 +1,7 @@
 package cn.machine.geek.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -26,6 +28,8 @@ import java.io.IOException;
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private static final String RESOURCE_ID = "app";
+    @Autowired
+    private ObjectMapper objectMapper;
 
     /**
      * @Author: MachineGeek
@@ -75,10 +79,21 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .stateless(true);
     }
 
+    /**
+     * @Author: MachineGeek
+     * @Description: 配置资源服务器安全策略
+     * @Date: 2021/1/19
+     * @param http
+     * @Return: void
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(new CustomAccessDeniedHandler(objectMapper))
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint(objectMapper))
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated();
