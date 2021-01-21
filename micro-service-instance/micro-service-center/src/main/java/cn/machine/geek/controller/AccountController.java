@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,7 +84,6 @@ public class AccountController {
     * @Return: cn.machine.geek.common.R
     */
     @PostMapping("/add")
-    @Transactional
     public R add(@RequestBody AccountRole accountRole, HttpServletRequest httpServletRequest, OAuth2Authentication oAuth2Authentication){
         OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) oAuth2Authentication.getDetails();
         accountRole.setCreateTime(LocalDateTime.now());
@@ -105,7 +103,6 @@ public class AccountController {
     * @Return: cn.machine.geek.common.R
     */
     @PutMapping("/modifyById")
-    @Transactional
     public R modifyById(@RequestBody AccountRole accountRole){
         UpdateWrapper<Account> updateWrapper = new UpdateWrapper<>();
         updateWrapper.lambda().eq(Account::getId,accountRole.getId())

@@ -20,17 +20,14 @@
         <dependency>
             <groupId>cn.machine.geek</groupId>
             <artifactId>micro-service-common</artifactId>
-            <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.machine.geek</groupId>
             <artifactId>micro-service-core</artifactId>
-            <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.machine.geek</groupId>
             <artifactId>micro-service-data</artifactId>
-            <version>${parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

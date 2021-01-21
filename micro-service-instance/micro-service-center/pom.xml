@@ -15,12 +15,10 @@
         <dependency>
             <groupId>cn.machine.geek</groupId>
             <artifactId>micro-service-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.machine.geek</groupId>
             <artifactId>micro-service-data</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
