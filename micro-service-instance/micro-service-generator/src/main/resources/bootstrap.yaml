@@ -11,3 +11,8 @@ spring:
   # 服务名称
   application:
     name: MICRO-GENERATOR-SERVICE
+#请求处理的超时时间
+ribbon:
+  ReadTimeout: 120000
+#请求连接的超时时间
+  ConnectTimeout: 30000
