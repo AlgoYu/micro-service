@@ -25,7 +25,6 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <guava.version>30.0-jre</guava.version>
         <jwt.version>9.4.1</jwt.version>
-        <seata.version>1.4.1</seata.version>
     </properties>
 
     <dependencyManagement>
@@ -55,18 +54,6 @@
                 <scope>import</scope>
             </dependency>
             <!-- 其他框架依赖管理 -->
-            <!-- Seata -->
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-all</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
-            <!-- Seata Starter -->
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-spring-boot-starter</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
             <!-- Druid -->
             <dependency>
                 <groupId>com.alibaba</groupId>

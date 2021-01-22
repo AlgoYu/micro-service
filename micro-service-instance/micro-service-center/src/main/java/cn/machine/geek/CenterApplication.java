@@ -12,7 +12,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @Date: 2021/1/20
  */
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication
 public class CenterApplication {
     public static void main(String[] args) {
         SpringApplication.run(CenterApplication.class,args);

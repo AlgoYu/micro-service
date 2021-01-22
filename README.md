@@ -33,17 +33,17 @@ docker run -d --name dev-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --net 
 // 启动Redis容器
 docker run -d --name dev-redis -p 6379:6379 --net mynet --ip 172.100.0.3 --restart=always redis:latest --requirepass 123456
 
-// 启动nacos容器（连接mysql的nacos数据库）
-docker run -d --name dev-nacos -e MODE=standalone -e MYSQL_SERVICE_DB_NAME=nacos -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=123456 -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=172.100.0.2 -e MYSQL_DATABASE_NUM=1 -p 8848:8848 --net mynet --ip 172.100.0.4 --restart=always nacos/nacos-server:latest
+// 启动nacos容器1.4.1版本（连接mysql的nacos数据库）
+docker run -d --name dev-nacos -e MODE=standalone -e MYSQL_SERVICE_DB_NAME=nacos -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=123456 -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=172.100.0.2 -e MYSQL_DATABASE_NUM=1 -p 8848:8848 --net mynet --ip 172.100.0.4 --restart=always nacos/nacos-server:1.4.1
 
-// 启动Sentinel容器
-docker run -d --name dev-sentinel -p 8858:8858 -p 8719:8719 --net mynet --ip 172.100.0.5 --restart=always bladex/sentinel-dashboard:latest
+// 启动Sentinel容器1.8.0版本
+docker run -d --name dev-sentinel -p 8858:8858 -p 8719:8719 --net mynet --ip 172.100.0.5 --restart=always bladex/sentinel-dashboard:1.8.0
 
 // 启动zipkin容器
 docker run -d --name dev-zipkin -p 9411:9411 --net mynet --ip 172.100.0.6 --restart=always --restart=always openzipkin/zipkin:latest
 
-// 启动Seata容器(注册到Nacos，并从nacos读取配置，nacos中有seata的配置，包含了mysql连接信息)
-docker run -d --name dev-seata -p 8091:8091 --net mynet --ip 172.100.0.7 --restart=always seataio/seata-server:latest
+// 启动Seata容器1.3.0(注册到Nacos，并从nacos读取配置，nacos中有seata的配置，包含了mysql连接信息)
+docker run -d --name dev-seata -p 8091:8091 --net mynet --ip 172.100.0.7 --restart=always seataio/seata-server:1.3.0
 // 拷贝registry.conf到seata容器中
 docker cp 项目路径/registry.conf dev-seata:seata-server/resources/
 // 重启seata容器
