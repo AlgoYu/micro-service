@@ -42,7 +42,7 @@ docker run -d --name dev-sentinel -p 8858:8858 -p 8719:8719 --net mynet --ip 172
 // 启动zipkin容器
 docker run -d --name dev-zipkin -p 9411:9411 --net mynet --ip 172.100.0.6 --restart=always --restart=always openzipkin/zipkin:latest
 
-// 启动Seata容器1.3.0(注册到Nacos，并从nacos读取配置，nacos中有seata的配置，包含了mysql连接信息)
+// 启动Seata容器1.3.0（这个东西暂时不推荐用Docker启动，很多坑，建议使用项目下的1.3.0的包）(注册到Nacos，并从nacos读取配置，nacos中有seata的配置，包含了mysql连接信息)
 docker run -d --name dev-seata -p 8091:8091 --net mynet --ip 172.100.0.7 --restart=always seataio/seata-server:1.3.0
 // 拷贝registry.conf到seata容器中
 docker cp 项目路径/registry.conf dev-seata:seata-server/resources/
@@ -50,6 +50,8 @@ docker cp 项目路径/registry.conf dev-seata:seata-server/resources/
 docker restart dev-seata
 // 查看日志
 docker logs dev-seata
+
+// 如果使用项目下的1.3.0的Seata记得改register.confi里的nacos地址，还有nacos配置中seata配置的jdbc地址，其他服务的配置也要记得改一下，不然连不上。
 ```
 ## RSA生成
 ```terminal

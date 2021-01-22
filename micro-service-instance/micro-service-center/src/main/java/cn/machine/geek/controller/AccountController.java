@@ -12,7 +12,6 @@ import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -85,7 +84,6 @@ public class AccountController {
     * @Return: cn.machine.geek.common.R
     */
     @PostMapping("/add")
-    @GlobalTransactional
     public R add(@RequestBody AccountRole accountRole, HttpServletRequest httpServletRequest, OAuth2Authentication oAuth2Authentication){
         OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) oAuth2Authentication.getDetails();
         accountRole.setCreateTime(LocalDateTime.now());
@@ -94,11 +92,6 @@ public class AccountController {
         accountRole.setEnable(false);
         accountService.save(accountRole);
         addRoles(accountRole.getId(),accountRole.getRoleIds());
-        try {
-            Thread.sleep(8 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return R.ok(true);
     }
 

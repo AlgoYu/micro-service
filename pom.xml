@@ -18,8 +18,8 @@
     <properties>
         <!-- Spring版本管理 -->
         <spring-boot.version>2.3.8.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
+        <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.4.RELEASE</spring-cloud-alibaba.version>
         <!-- 框架版本管理 -->
         <druid.version>1.2.4</druid.version>
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
