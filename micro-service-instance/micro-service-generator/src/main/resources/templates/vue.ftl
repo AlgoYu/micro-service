@@ -1,54 +1,59 @@
 <template>
     <div>
-        <div style="margin-top: 10px; margin-bottom: 10px">
-            <el-row>
-                <el-col :span="10">
-                    <el-button
-                        type="primary"
-                        @click="addData"
+        <div v-auth="'${className?upper_case}:GET'">
+            <div style="margin-top: 10px; margin-bottom: 10px">
+                <el-row>
+                    <el-col :span="10">
+                        <el-button
+                                type="primary"
+                                @click="add"
+                                v-auth="'${className?upper_case}:ADD'"
                         >增加</el-button>
-                </el-col>
-                <el-col :span="4" :offset="10">
-                    <el-input
-                        @keyup.enter.native="getPage"
-                        v-model="param.keyWord"
-                        placeholder="按关键字搜索内容"
-                        suffix-icon="el-icon-search"
-                    ></el-input>
-                </el-col>
-            </el-row>
-        </div>
-        <el-table
-            :data="table.data"
-            style="width: 100%"
-            v-loading="load"
-        >
-            <#list data as value>
-            <el-table-column prop="${toHump(value.columnName)}" label="${value.columnComment}" align="center">
-            </el-table-column>
-            </#list>
-            <el-table-column label="操作" align="center" min-width="150px">
-                <template slot-scope="scope">
-                    <el-button
-                        type="info"
-                        @click="edit(scope.row)"
+                    </el-col>
+                    <el-col :span="4" :offset="10">
+                        <el-input
+                                @keyup.enter.native="getPage"
+                                v-model="param.keyWord"
+                                placeholder="按关键字搜索内容"
+                                suffix-icon="el-icon-search"
+                        ></el-input>
+                    </el-col>
+                </el-row>
+            </div>
+            <el-table
+                    :data="table.data"
+                    style="width: 100%"
+                    v-loading="load"
+            >
+                <#list data as value>
+                    <el-table-column prop="${toHump(value.columnName)}" label="${value.columnComment}" align="center">
+                    </el-table-column>
+                </#list>
+                <el-table-column label="操作" align="center" min-width="150px">
+                    <template slot-scope="scope">
+                        <el-button
+                                type="info"
+                                @click="edit(scope.row)"
+                                v-auth="'${className?upper_case}:MODIFY'"
                         >编辑</el-button
-                    >
-                    <el-button
-                        type="danger"
-                        @click="deleteData(scope.row)"
+                        >
+                        <el-button
+                                type="danger"
+                                @click="remove(scope.row)"
+                                v-auth="'${className?upper_case}:DELETE'"
                         >删除</el-button
-                    >
-                </template>
-            </el-table-column>
-        </el-table>
-        <el-pagination
-            layout="prev, pager, next"
-            :total="table.total"
-            style="text-align: center"
-            v-if="table.data.length > 0"
-        >
-        </el-pagination>
+                        >
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                    layout="prev, pager, next"
+                    :total="table.total"
+                    style="text-align: center"
+                    v-if="table.data.length > 0"
+            >
+            </el-pagination>
+        </div>
         <el-dialog
             title="${moduleName}"
             :visible.sync="formDialog"
@@ -71,14 +76,7 @@
 </template>
 
 <script>
-import {
-    add,
-    deleteById,
-    modifyById,
-    getById,
-    list,
-    paging
-} from "../../api/${className}Api.js";
+import ${className}Api from "@/api/module/${className}Api.js";
 export default {
     data() {
         return {
@@ -128,14 +126,14 @@ export default {
             };
             this.formDialog = true;
         },
-        deleteData(row) {
+        remove(row) {
             this.$confirm("确认删除这条数据吗?", "警告", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 type: "warning",
             })
                 .then(() => {
-                    deleteById(
+                    ${className}Api.deleteById(
                         {
                             id: row.id,
                         },
@@ -152,7 +150,7 @@ export default {
                 })
                 .catch(() => {});
         },
-        addData() {
+        add() {
             this.statu = "add";
             this.form = {
                 <#list data as value>
@@ -163,9 +161,9 @@ export default {
         },
         getPage() {
             this.load = true;
-            paging(this.param, (result) => {
+            ${className}Api.paging(this.param, (result) => {
                 if (result.success) {
-                    this.table.total = result.data.total;
+                    this.table.total = parseInt(result.data.total);
                     this.table.data = result.data.records;
                 }
                 this.load = false;
@@ -177,7 +175,7 @@ export default {
                     switch (this.statu) {
                         case "add":
                             this.load = true;
-                            add(this.form, (result) => {
+                            ${className}Api.add(this.form, (result) => {
                                 if (result.success) {
                                     this.$message({
                                         message: "添加成功!",
@@ -194,7 +192,7 @@ export default {
                             });
                             break;
                         case "edit":
-                            modifyById(this.form, (result) => {
+                            ${className}Api.modifyById(this.form, (result) => {
                                 if (result.success) {
                                     this.$message({
                                         message: "修改成功!",

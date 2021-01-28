@@ -8,14 +8,19 @@ import cn.machine.geek.entity.AccountRoleRelation;
 import cn.machine.geek.service.AccountRoleRelationService;
 import cn.machine.geek.service.AccountService;
 import cn.machine.geek.service.RoleService;
+import cn.machine.geek.util.MD5Util;
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +48,26 @@ public class AccountController {
     private AccountRoleRelationService accountRoleRelationService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private TokenStore tokenStore;
+    public static final String DEFAULT_PASSWORD = "123456";
 
+    /**
+    * @Author: MachineGeek
+    * @Description: 获取当前用户信息
+    * @Date: 2021/1/25
+     * @param oAuth2Authentication
+    * @Return: cn.machine.geek.common.R
+    */
+    @GetMapping("/getMyInfo")
+    public R getMyInfo(OAuth2Authentication oAuth2Authentication){
+        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) oAuth2Authentication.getDetails();
+        OAuth2AccessToken token = tokenStore
+                .readAccessToken(oAuth2AuthenticationDetails.getTokenValue());
+        Long id = (Long) token.getAdditionalInformation().get("id");
+        return R.ok(accountService.getById(id));
+    }
+    
     /**
     * @Author: MachineGeek
     * @Description: 根据ID获取
@@ -51,8 +75,9 @@ public class AccountController {
      * @param id
     * @Return: cn.machine.geek.common.R
     */
-    @GetMapping("/getById")
-    public R getById(@RequestParam("id") Long id){
+    @GetMapping("/getWithRoleById")
+    @PreAuthorize("hasAuthority('ACCOUNT:GET')")
+    public R getWithRoleById(@RequestParam("id") Long id){
         Map<String,Object> map = new HashMap<>();
         map.put("account",accountService.getById(id));
         map.put("roles",roleService.listByAccountId(id));
@@ -67,6 +92,7 @@ public class AccountController {
     * @Return: cn.machine.geek.common.R
     */
     @GetMapping("/paging")
+    @PreAuthorize("hasAuthority('ACCOUNT:GET')")
     public R paging(@Validated P p){
         QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
         String keyword = p.getKeyword();
@@ -83,16 +109,36 @@ public class AccountController {
      * @param accountRole
     * @Return: cn.machine.geek.common.R
     */
-    @PostMapping("/add")
-    public R add(@RequestBody AccountRole accountRole, HttpServletRequest httpServletRequest, OAuth2Authentication oAuth2Authentication){
-        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) oAuth2Authentication.getDetails();
+    @PostMapping("/addWithRole")
+    @Transactional
+    @PreAuthorize("hasAuthority('ACCOUNT:ADD')")
+    public R addWithRole(@RequestBody AccountRole accountRole, HttpServletRequest httpServletRequest, OAuth2Authentication oAuth2Authentication){
         accountRole.setCreateTime(LocalDateTime.now());
+        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) oAuth2Authentication.getDetails();
         accountRole.setIp(oAuth2AuthenticationDetails.getRemoteAddress());
         accountRole.setPassword(passwordEncoder.encode(accountRole.getPassword()));
-        accountRole.setEnable(false);
-        accountService.save(accountRole);
-        addRoles(accountRole.getId(),accountRole.getRoleIds());
-        return R.ok(true);
+        if(accountService.save(accountRole)){
+            addRoles(accountRole.getId(),accountRole.getRoleIds());
+            return R.ok();
+        }else{
+            return R.fail("添加失败");
+        }
+    }
+
+    /**
+    * @Author: MachineGeek
+    * @Description: 重置密码为123456
+    * @Date: 2021/1/25
+     * @param id
+    * @Return: cn.machine.geek.common.R
+    */
+    @PutMapping("/reset")
+    @PreAuthorize("hasAuthority('ACCOUNT:MODIFY')")
+    public R reset(@RequestParam(value = "id")Long id){
+        UpdateWrapper<Account> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.lambda().eq(Account::getId,id)
+                .set(Account::getPassword,passwordEncoder.encode(MD5Util.stringToMD5(DEFAULT_PASSWORD).toUpperCase()));
+        return R.ok(accountService.update(updateWrapper));
     }
 
     /**
@@ -102,8 +148,10 @@ public class AccountController {
      * @param accountRole
     * @Return: cn.machine.geek.common.R
     */
-    @PutMapping("/modifyById")
-    public R modifyById(@RequestBody AccountRole accountRole){
+    @PutMapping("/modifyWithRoleById")
+    @Transactional
+    @PreAuthorize("hasAuthority('ACCOUNT:MODIFY')")
+    public R modifyWithRoleById(@RequestBody AccountRole accountRole){
         UpdateWrapper<Account> updateWrapper = new UpdateWrapper<>();
         updateWrapper.lambda().eq(Account::getId,accountRole.getId())
                 .set(Account::getEmail,accountRole.getEmail())
@@ -121,7 +169,8 @@ public class AccountController {
      * @param id
     * @Return: cn.machine.geek.common.R
     */
-    @DeleteMapping("/modifyById")
+    @DeleteMapping("/deleteById")
+    @PreAuthorize("hasAuthority('ACCOUNT:DELETE')")
     public R deleteById(@RequestParam("id") Long id){
         return R.ok(accountService.removeById(id));
     }

@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +34,7 @@ import java.util.Map;
 @RequestMapping("/role")
 public class RoleController {
     @Autowired
-    private RoleService roleService;
+    private RoleService roleService; //这个角色服务
     @Autowired
     private AuthorityService authorityService;
     @Autowired
@@ -46,7 +48,7 @@ public class RoleController {
     * @Return: cn.machine.geek.common.R
     */
     @GetMapping("/list")
-    private R list(){
+    public R list(){
         return R.ok(roleService.list());
     }
 
@@ -57,8 +59,9 @@ public class RoleController {
      * @param id
     * @Return: cn.machine.geek.common.R
     */
-    @GetMapping("/getById")
-    public R getById(@RequestParam("id") Long id){
+    @GetMapping("/getWithAuthorityById")
+    @PreAuthorize("hasAuthority('ROLE:GET')")
+    public R getWithAuthorityById(@RequestParam("id") Long id){
         Map<String,Object> map = new HashMap<>();
         map.put("role",roleService.getById(id));
         map.put("authorities",authorityService.listByRoleId(id));
@@ -73,6 +76,7 @@ public class RoleController {
     * @Return: cn.machine.geek.common.R
     */
     @GetMapping("/paging")
+    @PreAuthorize("hasAuthority('ROLE:GET')")
     public R paging(@Validated P p){
         QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
         String keyword = p.getKeyword();
@@ -90,14 +94,20 @@ public class RoleController {
      * @param roleAuthority
     * @Return: cn.machine.geek.common.R
     */
-    @PostMapping("/add")
-    public R add(@RequestBody RoleAuthority roleAuthority){
-        roleAuthority.setCreateTime(LocalDateTime.now());
-        roleService.save(roleAuthority);
-        if(roleAuthority.getAuthorityIds() != null && roleAuthority.getAuthorityIds().size() > 0){
-            addAuthorities(roleAuthority.getId(),roleAuthority.getAuthorityIds());
+    @PostMapping("/addWithAuthority")
+    @Transactional
+    @PreAuthorize("hasAuthority('ROLE:ADD')")
+    public R addWithAuthority(@RequestBody RoleAuthority roleAuthority){
+        if(!roleAuthority.getKey().startsWith("ROLE_")){
+            roleAuthority.setKey("ROLE_"+roleAuthority.getKey());
         }
-        return R.ok();
+        roleAuthority.setCreateTime(LocalDateTime.now());
+        if(roleService.save(roleAuthority)){
+            addAuthorities(roleAuthority.getId(),roleAuthority.getAuthorityIds());
+            return R.ok();
+        }else{
+            return R.fail("添加失败");
+        }
     }
 
     /**
@@ -107,8 +117,10 @@ public class RoleController {
      * @param roleAuthority
     * @Return: cn.machine.geek.common.R
     */
-    @PutMapping("/modifyById")
-    public R modifyById(@RequestBody RoleAuthority roleAuthority){
+    @PutMapping("/modifyWithAuthorityById")
+    @Transactional
+    @PreAuthorize("hasAuthority('ROLE:MODIFY')")
+    public R modifyWithAuthorityById(@RequestBody RoleAuthority roleAuthority){
         UpdateWrapper<Role> updateWrapper = new UpdateWrapper<>();
         updateWrapper.lambda().eq(Role::getId,roleAuthority.getId())
                 .set(Role::getName,roleAuthority.getName())
@@ -124,7 +136,8 @@ public class RoleController {
      * @param id
     * @Return: cn.machine.geek.common.R
     */
-    @DeleteMapping("/modifyById")
+    @DeleteMapping("/deleteById")
+    @PreAuthorize("hasAuthority('ROLE:DELETE')")
     public R deleteById(@RequestParam("id") Long id){
         return R.ok(roleService.removeById(id));
     }
