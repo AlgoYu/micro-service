@@ -2,8 +2,6 @@ package cn.machine.geek.controller;
 
 import cn.machine.geek.common.P;
 import cn.machine.geek.common.R;
-import cn.machine.geek.dto.AccountRole;
-import cn.machine.geek.service.CenterService;
 import cn.machine.geek.service.DatabaseService;
 import cn.machine.geek.util.CodeGenerator;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -31,8 +29,6 @@ public class CodeGeneratorController {
     private DatabaseService databaseService;
     @Autowired
     private CodeGenerator codeGenerator;
-    @Autowired
-    private CenterService centerService;
 
     @GetMapping(value = "/paging")
     public R paging(@Validated P p){
@@ -51,13 +47,5 @@ public class CodeGeneratorController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @GetMapping(value = "/test")
-    public R test(){
-        AccountRole accountRole = new AccountRole();
-        accountRole.setEnable(false);
-        accountRole.setPassword("Qweqweqwe");
-        return R.ok(centerService.add(accountRole));
     }
 }

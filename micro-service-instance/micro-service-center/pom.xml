@@ -19,6 +19,13 @@
         <dependency>
             <groupId>cn.machine.geek</groupId>
             <artifactId>micro-service-core</artifactId>
+            <!-- 排除依赖 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-openfeign</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>cn.machine.geek</groupId>
