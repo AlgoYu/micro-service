@@ -51,6 +51,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     // 自定义JWT内容
     @Autowired
     private CustomTokenEnhancer CustomTokenEnhancer;
+    // RSA私钥文件名
+    private static final String RSA_PRIVATE_KEY_FILE_NAME = "MachineGeek.jks";
+    // RSA证书密码
+    private static final String PASSWORD = "MachineGeek";
 
     /**
      * @Author: MachineGeek
@@ -100,10 +104,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         // 加载私钥
-        ClassPathResource preKey = new ClassPathResource("MachineGeek.jks");
+        ClassPathResource preKey = new ClassPathResource(RSA_PRIVATE_KEY_FILE_NAME);
         // 设置私钥
-        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(preKey,"MachineGeek".toCharArray());
-        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("MachineGeek","MachineGeek".toCharArray()));
+        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(preKey,PASSWORD.toCharArray());
+        converter.setKeyPair(keyStoreKeyFactory.getKeyPair(PASSWORD,PASSWORD.toCharArray()));
         return converter;
     }
 

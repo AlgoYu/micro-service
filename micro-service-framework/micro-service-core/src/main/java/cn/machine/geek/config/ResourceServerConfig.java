@@ -27,7 +27,10 @@ import java.io.IOException;
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+    // 资源服务器名称
     private static final String RESOURCE_ID = "app";
+    // RSA公钥文件名
+    private static final String RSA_PUBLIC_KEY_FILE_NAME = "MachineGeek.pub";
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -53,7 +56,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         // 加载公钥
-        ClassPathResource pubKey = new ClassPathResource("MachineGeek.pub");
+        ClassPathResource pubKey = new ClassPathResource(RSA_PUBLIC_KEY_FILE_NAME);
         // 设置公钥
         try {
             String pubStr = new String(FileCopyUtils.copyToByteArray(pubKey.getInputStream()));
