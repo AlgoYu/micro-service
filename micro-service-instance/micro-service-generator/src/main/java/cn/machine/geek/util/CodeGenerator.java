@@ -32,7 +32,7 @@ public class CodeGenerator{
     // 数据库映射类
     private DatabaseMapper databaseMapper;
     // 生成路径
-    @Value("${generate-path}")
+    @Value("${generate-path:./}")
     private String generatePath;
 
     @Autowired

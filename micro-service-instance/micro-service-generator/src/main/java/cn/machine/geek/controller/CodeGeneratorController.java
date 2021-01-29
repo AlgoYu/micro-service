@@ -58,7 +58,6 @@ public class CodeGeneratorController {
         AccountRole accountRole = new AccountRole();
         accountRole.setEnable(false);
         accountRole.setPassword("Qweqweqwe");
-        centerService.add(accountRole);
-        return R.ok();
+        return R.ok(centerService.add(accountRole));
     }
 }
