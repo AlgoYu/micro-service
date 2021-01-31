@@ -1,5 +1,6 @@
 package cn.machine.geek.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @Email: 794763733@qq.com
  * @Date: 2021/1/20
  */
+@ConditionalOnClass(WebSecurityConfigurerAdapter.class)
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

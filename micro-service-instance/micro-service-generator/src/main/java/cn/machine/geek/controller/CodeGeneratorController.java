@@ -3,6 +3,7 @@ package cn.machine.geek.controller;
 import cn.machine.geek.common.P;
 import cn.machine.geek.common.R;
 import cn.machine.geek.service.DatabaseService;
+import cn.machine.geek.service.MessageProvider;
 import cn.machine.geek.util.CodeGenerator;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class CodeGeneratorController {
     private DatabaseService databaseService;
     @Autowired
     private CodeGenerator codeGenerator;
+    @Autowired
+    private MessageProvider messageProvider;
 
     @GetMapping(value = "/paging")
     public R paging(@Validated P p){

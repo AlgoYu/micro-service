@@ -2,6 +2,7 @@ package cn.machine.geek.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -24,6 +25,7 @@ import java.io.IOException;
  * @Email: 794763733@qq.com
  * @Date: 2021/1/19
  */
+@ConditionalOnClass(ResourceServerConfigurerAdapter.class)
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {

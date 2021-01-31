@@ -45,6 +45,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
+        <!-- RabbitMQ消息驱动 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+        </dependency>
         <!-- Oauth2 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -8,6 +8,28 @@ spring:
         server-addr: 127.0.0.1:8848
         file-extension: yaml
         group: DEV
+    stream:
+      # 配置RabbitMQ 绑定器
+      binders:
+        rabbit:
+          type: rabbit
+          # RabbitMQ地址
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+      # 配置输入输出通道
+      bindings:
+        input:
+          # 主题
+          destination: dev-message
+          # Binder
+          binder: rabbit
+          # 内容格式JSON
+          content-type: application/json
   # 服务名称
   application:
     name: MICRO-CENTER-SERVICE
