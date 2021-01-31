@@ -1,6 +1,8 @@
 package cn.machine.geek.message;
 
 import cn.machine.geek.entity.SystemException;
+import cn.machine.geek.mapper.SystemExceptionMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
@@ -14,11 +16,18 @@ import org.springframework.messaging.Message;
  */
 @EnableBinding(Sink.class)
 public class MessageListener {
+    @Autowired
+    private SystemExceptionMapper systemExceptionMapper;
+
+    /**
+    * @Author: MachineGeek
+    * @Description: 接受消息队列的错误信息并插入到数据库
+    * @Date: 2021/1/31
+     * @param message
+    * @Return: void
+    */
     @StreamListener(Sink.INPUT)
     public void input(Message<SystemException> message){
-        System.out.println("收到消息:"+message.getPayload().getParameter());
-        System.out.println("收到消息:"+message.getPayload().getUri());
-        System.out.println("收到消息:"+message.getPayload().getMethod());
-        System.out.println("收到消息:"+message.getPayload().getExceptionClass());
+        systemExceptionMapper.insert(message.getPayload());
     }
 }

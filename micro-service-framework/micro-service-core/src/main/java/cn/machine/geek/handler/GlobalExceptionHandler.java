@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
         Map<String,Object> map = new HashMap<>();
         map.put("service",applicationName);
         try {
-            map.put("host", new String(Inet4Address.getLocalHost().getAddress()));
+            map.put("host", Inet4Address.getLocalHost().getAddress());
         } catch (UnknownHostException unknownHostException) {
             unknownHostException.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
         }else{
             map.put("parameter",getBody(httpServletRequest));
         }
-        map.put("exception",e.getClass().getName());
+        map.put("exceptionClass",e.getClass().getName());
         map.put("exceptionMessage",e.getMessage());
         map.put("createTime",LocalDateTime.now());
         rabbitMessageProvider.send(map);

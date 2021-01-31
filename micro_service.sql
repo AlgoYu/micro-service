@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 28/01/2021 17:43:03
+ Date: 31/01/2021 18:17:43
 */
 
 SET NAMES utf8mb4;
@@ -111,6 +111,8 @@ INSERT INTO `authority` VALUES (1348542368843452427, '获取数据表', 'GENERAT
 INSERT INTO `authority` VALUES (1348542368843452428, '生成代码', 'GENERATOR:GENERATE', 1348542368843452422, 0, NULL);
 INSERT INTO `authority` VALUES (1348542368843452429, '查询异常', 'EXCEPTION:GET', 1348542368843452424, 0, NULL);
 INSERT INTO `authority` VALUES (1348542368843452430, '删除异常', 'EXCEPTION:DELETE', 1348542368843452424, 0, NULL);
+INSERT INTO `authority` VALUES (1348542368843452431, '注册中心', 'REGISTRY', 1348542368843452419, 0, '/Registry');
+INSERT INTO `authority` VALUES (1348542368843452432, '链路追踪', 'TRACK', 1348542368843452419, 0, '/Track');
 COMMIT;
 
 -- ----------------------------
@@ -175,7 +177,7 @@ CREATE TABLE `role` (
 -- Records of role
 -- ----------------------------
 BEGIN;
-INSERT INTO `role` VALUES (1347107367358693378, '超级管理员', 'ROLE_Administrator', 0, '2021-01-06 13:54:03', '2021-01-26 18:04:14');
+INSERT INTO `role` VALUES (1347107367358693378, '超级管理员', 'ROLE_Administrator', 0, '2021-01-06 13:54:03', '2021-01-29 14:08:57');
 COMMIT;
 
 -- ----------------------------
@@ -219,6 +221,32 @@ INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452428);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452429);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452430);
+INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452431);
+INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452432);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for system_exception
+-- ----------------------------
+DROP TABLE IF EXISTS `system_exception`;
+CREATE TABLE `system_exception` (
+  `id` bigint NOT NULL COMMENT '唯一标识',
+  `service` varchar(50) DEFAULT NULL COMMENT '服务名称',
+  `host` varchar(65) DEFAULT NULL COMMENT '服务主机',
+  `uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'URI',
+  `method` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '请求方法',
+  `parameter` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '请求参数',
+  `ip` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'IP地址',
+  `exception_class` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '异常类',
+  `exception_message` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '异常信息',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统异常';
+
+-- ----------------------------
+-- Records of system_exception
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
