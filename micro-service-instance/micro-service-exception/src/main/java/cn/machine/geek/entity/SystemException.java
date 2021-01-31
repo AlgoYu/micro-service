@@ -16,6 +16,12 @@ public class SystemException {
     @TableId(value = "`id`")
     private Long id;
 
+    @TableField(value = "`service`")
+    private String service;
+
+    @TableField(value = "`host`")
+    private String host;
+
     @TableField(value = "`uri`")
     private String uri;
 

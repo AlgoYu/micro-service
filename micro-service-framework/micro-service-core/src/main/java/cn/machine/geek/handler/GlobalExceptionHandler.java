@@ -3,6 +3,7 @@ package cn.machine.geek.handler;
 import cn.machine.geek.common.R;
 import cn.machine.geek.service.RabbitMessageProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,12 +32,20 @@ import java.util.Set;
 public class GlobalExceptionHandler {
     @Autowired
     private RabbitMessageProvider rabbitMessageProvider;
+    @Value("${spring.application.name:UNKNOWN}")
+    private String applicationName;
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public R exceptionHandler(HttpServletRequest httpServletRequest, Exception e){
         // 构建异常信息
         Map<String,Object> map = new HashMap<>();
+        map.put("service",applicationName);
+        try {
+            map.put("host", new String(Inet4Address.getLocalHost().getAddress()));
+        } catch (UnknownHostException unknownHostException) {
+            unknownHostException.printStackTrace();
+        }
         map.put("uri",httpServletRequest.getRequestURI());
         map.put("ip",getIpAddr(httpServletRequest));
         String method = httpServletRequest.getMethod();
