@@ -3,6 +3,8 @@ package cn.machine.geek.handler;
 import cn.machine.geek.common.R;
 import cn.machine.geek.service.RabbitMessageProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +24,7 @@ import java.util.Set;
  * @Email: 794763733@qq.com
  * @Date: 2021/1/31
  */
+@ConditionalOnClass(Source.class)
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @Autowired

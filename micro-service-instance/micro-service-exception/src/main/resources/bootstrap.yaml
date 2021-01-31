@@ -1,5 +1,5 @@
 server:
-  port: 10005
+  port: 10008
 spring:
   cloud:
     # 配置中心
@@ -10,4 +10,4 @@ spring:
         group: DEV
   # 服务名称
   application:
-    name: MICRO-CENTER-SERVICE
+    name: MICRO-EXCEPTION-SERVICE
