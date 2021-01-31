@@ -1,13 +1,12 @@
 ## 快速开发平台（微服务架构版本）
 这是一个快速开发的脚手架，内置了许多通用的功能，可节约项目开发30%-70%的时间。   
-配套的后台管理界面项目请见：[通用后台管理](https://github.com/QQ794763733/common-backend)  
+配套的后台管理界面项目请见：[微服务架构后台管理](https://github.com/QQ794763733/micro-service-backend)  
 作者集成了许多常见的应用开发的框架，编写了一些常用的模块与接口及实现类。    
-例如RBAC权限管理、分布式认证中心、Oauth2.0、WebSocket、图形验证码、代码生成器……  
+例如RBAC权限管理、分布式认证中心、全局异常日志、Oauth2.0、WebSocket、图形验证码、代码生成器……  
 **单体架构版本请见：[单体架构版本](https://github.com/QQ794763733/machine-geek)**
 ## 配套前端界面预览
 如果图片加载不出来是缓存的问题，请谅解。
-![预览图1](https://store.machine-geek.cn/0042.png)
-![预览图2](https://store.machine-geek.cn/0043.png)
+![预览图1](https://store.machine-geek.cn/0043.png)
 ## 环境需要
 这是作者的开发环境，请参考再选择自己的版本。
 1. `MySQL`8
@@ -83,11 +82,10 @@ keytool -list -rfc --keystore MachineGeek.jks | openssl x509 -inform pem -pubkey
 `Spring Cloud Stream`: 使用Stream做消息驱动。  
 `Spring Cloud Gateway`: 使用Gateway做微服务网关。
 ## 项目结构
-* `micro-service-api`:这个模块是用来放置一些通用的依赖实体、接口。
-* `micro-service-auth`:这个模块是分布式的认证中心，包含Oauth2.0以及RBAC的权限控制。
-* `micro-service-framework`:这个模块是用来封装通用依赖以及一些常用的框架配置的。  
-  * `micro-service-core`:这个模块包含了常用的Web开发的依赖与配置，包含Web Starter、Nacos、Sentinel、OpenFeign、Dubbo、zipkin平时开发服务只需要依赖这个模块即可。
-  * `micro-service-data`:这个模块包含了常用的数据开发的依赖与配置，包含Redis、RabbitMQ、MySQL、操作数据依赖这个模块即可。
+* `micro-service-auth`:这个模块是认证中心，Oauth2.0的认证在这里处理，这里只做认证，不做其他业务逻辑。
+* `micro-service-framework`:这个模块的所有子模块是用来封装通用依赖以及一些常用的框架配置的。  
+  * `micro-service-core`:这个模块包含了常用的Web开发的依赖与配置，包含Web Starter、Nacos、Sentinel、Stream、OpenFeign、zipkin以及一些条件注入的配置，平时开发服务只需要依赖这个模块即可。
+  * `micro-service-data`:这个模块包含了常用的数据开发的依赖与配置，包含Redis、MySQL、Seata事务操作数据依赖这个模块即可。
 * `micro-service-gateway`:这个模块是Gateway网关。
 * `micro-service-instance`:这个模块是具体的业务服务实例。  
   * `……`:业务代码的模块请在这里添加。
