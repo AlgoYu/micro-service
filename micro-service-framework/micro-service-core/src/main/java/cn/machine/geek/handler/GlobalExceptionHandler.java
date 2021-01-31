@@ -1,9 +1,8 @@
 package cn.machine.geek.handler;
 
 import cn.machine.geek.common.R;
-import cn.machine.geek.service.MessageProvider;
+import cn.machine.geek.service.RabbitMessageProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,11 +22,10 @@ import java.util.Set;
  * @Email: 794763733@qq.com
  * @Date: 2021/1/31
  */
-@ConditionalOnMissingBean
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @Autowired
-    private MessageProvider messageProvider;
+    private RabbitMessageProvider rabbitMessageProvider;
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
@@ -46,7 +44,7 @@ public class GlobalExceptionHandler {
         map.put("exception",e.getClass().getName());
         map.put("exceptionMessage",e.getMessage());
         map.put("createTime",LocalDateTime.now());
-        messageProvider.send(map);
+        rabbitMessageProvider.send(map);
         // 返回异常信息
         return R.fail("服务器繁忙");
     }

@@ -1,6 +1,6 @@
 package cn.machine.geek.service.impl;
 
-import cn.machine.geek.service.MessageProvider;
+import cn.machine.geek.service.RabbitMessageProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,10 +15,10 @@ import org.springframework.messaging.support.MessageBuilder;
  * @Email: 794763733@qq.com
  * @Date: 2021/1/31
  */
-@ConditionalOnMissingBean
+@ConditionalOnMissingBean(name = "rabbitMessageProvider")
 @ConditionalOnClass(Source.class)
 @EnableBinding(Source.class)
-public class MessageProviderImpl implements MessageProvider {
+public class RabbitMessageProviderImpl implements RabbitMessageProvider {
     @Autowired
     private MessageChannel output;
     @Override
