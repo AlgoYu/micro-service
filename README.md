@@ -24,20 +24,25 @@
 // Docker创建自定义桥接网络mynet（方便容器互连）
 docker network create --driver bridge --subnet 172.100.0.0/24 --gateway 172.100.0.1 mynet
 
-// 启动MySQL容器（无数据卷,需要的话自己加，记得创建相应的数据库，SQL文件在项目的根目录下。）
+//下面启动的容器均无映射数据卷，需要的自己添加。
+
+// 启动MySQL容器（密码123456，记得创建相应的数据库，SQL文件在项目的根目录下。）
 docker run -d --name dev-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --net mynet --ip 172.100.0.2 --restart=always mysql:latest
 - micro_service.sql   这个是后端Oauth2和RBAC必备的SQL文件
 - nacos.sql    这个是Nacos的SQL文件，里面包含了所有服务的配置以及Seata的配置
 - seata.sql    这个是Seata的SQL文件，分布式事务需要用到
 
-// 启动Redis容器
+// 启动Redis容器（密码123456）
 docker run -d --name dev-redis -p 6379:6379 --net mynet --ip 172.100.0.3 --restart=always redis:latest --requirepass 123456
 
-// 启动nacos容器1.4.1版本（连接mysql的nacos数据库）
+// 启动nacos容器1.4.1版本（账号密码都是nacos，并连接mysql的nacos数据库）
 docker run -d --name dev-nacos -e MODE=standalone -e MYSQL_SERVICE_DB_NAME=nacos -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=123456 -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=172.100.0.2 -e MYSQL_DATABASE_NUM=1 -p 8848:8848 --net mynet --ip 172.100.0.4 --restart=always nacos/nacos-server:1.4.1
 
-// 启动Sentinel容器1.8.0版本
+// 启动Sentinel容器1.8.0版本（账号密码都是sentinel）
 docker run -d --name dev-sentinel -p 8858:8858 -p 8719:8719 --net mynet --ip 172.100.0.5 --restart=always bladex/sentinel-dashboard:1.8.0
+
+// 启动RabbitMQ（账号密码都是guest）
+docker run -d --name dev-rabbitmq --hostname dev-rabbitmq -p 15672:15672 -p 5672:5672 --net mynet --ip 172.100.0.10 --restart=always rabbitmq:3.8-rc-management
 
 // 启动zipkin容器
 docker run -d --name dev-zipkin -p 9411:9411 --net mynet --ip 172.100.0.6 --restart=always --restart=always openzipkin/zipkin:latest
