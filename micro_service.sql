@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 31/01/2021 18:17:43
+ Date: 22/02/2021 16:54:20
 */
 
 SET NAMES utf8mb4;
@@ -104,14 +104,11 @@ INSERT INTO `authority` VALUES (1348542368843452419, '开发者工具', 'DEVTOOL
 INSERT INTO `authority` VALUES (1348542368843452420, '系统设置', 'SETTING', 0, 9, '/Setting');
 INSERT INTO `authority` VALUES (1348542368843452421, '数据中心', 'DASHBOARD', 0, 10, '/Dashboard');
 INSERT INTO `authority` VALUES (1348542368843452422, '代码生成器', 'GENERATOR', 1348542368843452419, 0, '/CodeGenerator');
-INSERT INTO `authority` VALUES (1348542368843452423, '数据监控', 'MONITOR', 1348542368843452419, 0, '/Monitor');
 INSERT INTO `authority` VALUES (1348542368843452424, '异常信息', 'EXCEPTION', 1348542368843452419, 0, '/Exception');
-INSERT INTO `authority` VALUES (1348542368843452425, '开发文档', 'DOCUMENT', 1348542368843452419, 0, '/Document');
 INSERT INTO `authority` VALUES (1348542368843452427, '获取数据表', 'GENERATOR:GET', 1348542368843452422, 0, NULL);
 INSERT INTO `authority` VALUES (1348542368843452428, '生成代码', 'GENERATOR:GENERATE', 1348542368843452422, 0, NULL);
 INSERT INTO `authority` VALUES (1348542368843452429, '查询异常', 'EXCEPTION:GET', 1348542368843452424, 0, NULL);
 INSERT INTO `authority` VALUES (1348542368843452430, '删除异常', 'EXCEPTION:DELETE', 1348542368843452424, 0, NULL);
-INSERT INTO `authority` VALUES (1348542368843452431, '注册中心', 'REGISTRY', 1348542368843452419, 0, '/Registry');
 INSERT INTO `authority` VALUES (1348542368843452432, '链路追踪', 'TRACK', 1348542368843452419, 0, '/Track');
 COMMIT;
 
@@ -214,14 +211,11 @@ INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452420);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452421);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452422);
-INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452423);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452424);
-INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452425);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452427);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452428);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452429);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452430);
-INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452431);
 INSERT INTO `role_authority_relation` VALUES (1347107367358693378, 1348542368843452432);
 COMMIT;
 
@@ -247,6 +241,11 @@ CREATE TABLE `system_exception` (
 -- Records of system_exception
 -- ----------------------------
 BEGIN;
+INSERT INTO `system_exception` VALUES (1363745193276514306, 'MICRO-GENERATOR-SERVICE', 'wKgMng==', '/generator/generate', 'GET', '?', '0:0:0:0:0:0:0:1', 'org.springframework.web.bind.MissingServletRequestParameterException', 'Required String parameter \'tableName\' is not present', '2021-02-22 14:59:26');
+INSERT INTO `system_exception` VALUES (1363747241975914497, 'MICRO-GENERATOR-SERVICE', 'wKgMng==', '/generator/generate', 'GET', '?', '0:0:0:0:0:0:0:1', 'org.springframework.web.bind.MissingServletRequestParameterException', 'Required String parameter \'tableName\' is not present', '2021-02-22 15:07:34');
+INSERT INTO `system_exception` VALUES (1363750106857512961, 'MICRO-CENTER-SERVICE', 'wKgMng==', '/role/addWithAuthority', 'POST', 'unknow', '192.168.12.158', 'java.lang.NullPointerException', NULL, '2021-02-22 15:18:57');
+INSERT INTO `system_exception` VALUES (1363759260280070145, 'MICRO-GENERATOR-SERVICE', 'wKgMng==', '/generator/generate', 'GET', '?', '0:0:0:0:0:0:0:1', 'org.springframework.web.bind.MissingServletRequestParameterException', 'Required String parameter \'tableName\' is not present', '2021-02-22 15:55:20');
+INSERT INTO `system_exception` VALUES (1363762092592898050, 'MICRO-GENERATOR-SERVICE', 'wKgMng==', '/generator/generate', 'GET', '?', '192.168.12.158', 'org.springframework.web.bind.MissingServletRequestParameterException', 'Required String parameter \'tableName\' is not present', '2021-02-22 16:06:35');
 COMMIT;
 
 -- ----------------------------

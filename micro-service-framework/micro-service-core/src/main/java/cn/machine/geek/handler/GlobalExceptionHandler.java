@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
@@ -99,8 +98,9 @@ public class GlobalExceptionHandler {
             while((str = br.readLine()) != null){
                 wholeStr += str;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            wholeStr = "unknow";
         }
         return wholeStr;
     }

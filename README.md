@@ -3,7 +3,7 @@
 配套的后台管理界面项目请见：[微服务架构后台管理](https://github.com/QQ794763733/micro-service-backend)  
 作者集成了许多常见的应用开发的框架，编写了一些常用的模块与接口及实现类。    
 例如RBAC权限管理、分布式认证中心、全局异常日志、Oauth2.0、WebSocket、图形验证码、代码生成器……  
-**单体架构版本请见：[单体架构版本](https://github.com/QQ794763733/machine-geek)**
+**单体架构版本请见：[单体架构版本](https://github.com/QQ794763733/single-architecture)**
 ## 配套前端界面预览
 如果图片加载不出来是缓存的问题，请谅解。
 ![预览图1](https://store.machine-geek.cn/0043.png)
