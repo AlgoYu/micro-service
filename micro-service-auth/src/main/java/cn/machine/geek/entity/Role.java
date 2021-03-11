@@ -3,6 +3,7 @@ package cn.machine.geek.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class Role {
     @TableField(value = "`key`")
     private String key;
 
+    @Version
     @TableField(value = "`version`")
     private Long version;
 

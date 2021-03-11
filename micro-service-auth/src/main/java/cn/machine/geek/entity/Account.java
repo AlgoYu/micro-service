@@ -3,6 +3,7 @@ package cn.machine.geek.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -39,6 +40,7 @@ public class Account{
     @TableField(value = "`enable`")
     private Boolean enable;
 
+    @Version
     @TableField(value = "`version`")
     private Long version;
 
