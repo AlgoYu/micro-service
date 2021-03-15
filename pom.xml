@@ -17,12 +17,14 @@
 
     <properties>
         <!-- Spring版本管理 -->
-        <spring-boot.version>2.3.8.RELEASE</spring-boot.version>
+        <!-- Spring Cloud Alibaba 毕业版本 -->
+        <!-- https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E -->
+        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.4.RELEASE</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
         <!-- 框架版本管理 -->
-        <druid.version>1.2.4</druid.version>
-        <mybatis-plus.version>3.4.1</mybatis-plus.version>
+        <druid.version>1.2.5</druid.version>
+        <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <guava.version>30.0-jre</guava.version>
         <jwt.version>9.4.1</jwt.version>
     </properties>

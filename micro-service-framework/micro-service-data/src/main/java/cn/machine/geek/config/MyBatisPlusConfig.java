@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class MyBatisPlusConfig {
     /**
     * @Author: MachineGeek
-    * @Description: 配置分页插件
+    * @Description: 配置MyBatis Plus插件
     * @Date: 2021/1/6
      * @param
     * @Return: com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor
@@ -24,19 +24,10 @@ public class MyBatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor paginationInterceptor() {
         MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
+        // 分页插件
         mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        // 乐观锁插件
+        mybatisPlusInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         return mybatisPlusInterceptor;
-    }
-
-    /**
-    * @Author: MachineGeek
-    * @Description: 乐观锁插件
-    * @Date: 2021/3/15
-     * @param
-    * @Return: com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor
-    */
-    @Bean
-    public OptimisticLockerInnerInterceptor optimisticLockerInnerInterceptor(){
-        return new OptimisticLockerInnerInterceptor();
     }
 }
