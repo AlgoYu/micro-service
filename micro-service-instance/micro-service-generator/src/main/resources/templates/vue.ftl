@@ -8,7 +8,8 @@
                                 type="primary"
                                 @click="add"
                                 v-auth="'${className?upper_case}:ADD'"
-                        >增加</el-button>
+                        >增加
+                        </el-button>
                     </el-col>
                     <el-col :span="4" :offset="10">
                         <el-input
@@ -35,13 +36,15 @@
                                 type="info"
                                 @click="edit(scope.row)"
                                 v-auth="'${className?upper_case}:MODIFY'"
-                        >编辑</el-button
+                        >编辑
+                        </el-button
                         >
                         <el-button
                                 type="danger"
                                 @click="remove(scope.row)"
                                 v-auth="'${className?upper_case}:DELETE'"
-                        >删除</el-button
+                        >删除
+                        </el-button
                         >
                     </template>
                 </el-table-column>
@@ -55,10 +58,10 @@
             </el-pagination>
         </div>
         <el-dialog
-            title="${moduleName}"
-            :visible.sync="formDialog"
-            width="50%"
-            :close-on-click-modal="false"
+                title="${moduleName}"
+                :visible.sync="formDialog"
+                width="50%"
+                :close-on-click-modal="false"
         >
             <el-form ref="form" :rules="rules" :model="form" label-width="80px">
                 <#list data as value>
@@ -76,151 +79,153 @@
 </template>
 
 <script>
-import ${className}Api from "@/api/module/${className}Api.js";
-export default {
-    data() {
-        return {
-            load: true,
-            statu: "",
-            form: {
-                <#list data as value>
-                ${toHump(value.columnName)}: "",
-                </#list>
-            },
-            rules: {
-                <#list data as value>
-                ${toHump(value.columnName)}: [
-                    {
-                        required: true,
-                        message: "${value.columnComment}不可为空",
-                        trigger: "change",
-                    },
-                ],
-                </#list>
-            },
-            formDialog: false,
-            param: {
-                page: 1,
-                size: 10,
-                keyWord: "",
-            },
-            table: {
-                total: 0,
-                data: [],
-            },
-        };
-    },
-    created() {
-        this.init();
-    },
-    methods: {
-        init() {
-            this.getPage();
-        },
-        edit(row) {
-            this.statu = "edit";
-            this.form = {
-                <#list data as value>
-                ${toHump(value.columnName)}: row.${toHump(value.columnName)},
-                </#list>
-            };
-            this.formDialog = true;
-        },
-        remove(row) {
-            this.$confirm("确认删除这条数据吗?", "警告", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                type: "warning",
-            })
-                .then(() => {
-                    ${className}Api.deleteById(
+    import ${className}Api from "@/api/module/${className}Api.js";
+
+    export default {
+        data() {
+            return {
+                load: true,
+                statu: "",
+                form: {
+                    <#list data as value>
+                    ${toHump(value.columnName)}: "",
+                    </#list>
+                },
+                rules: {
+                    <#list data as value>
+                    ${toHump(value.columnName)}: [
                         {
-                            id: row.id,
+                            required: true,
+                            message: "${value.columnComment}不可为空",
+                            trigger: "change",
                         },
-                        (result) => {
-                            if (result.success) {
-                                this.$message({
-                                    message: "删除成功!",
-                                    type: "success",
-                                });
-                                this.getPage();
-                            }
-                        }
-                    );
-                })
-                .catch(() => {});
-        },
-        add() {
-            this.statu = "add";
-            this.form = {
-                <#list data as value>
-                ${toHump(value.columnName)}: "",
-                </#list>
+                    ],
+                    </#list>
+                },
+                formDialog: false,
+                param: {
+                    page: 1,
+                    size: 10,
+                    keyWord: "",
+                },
+                table: {
+                    total: 0,
+                    data: [],
+                },
             };
-            this.formDialog = true;
         },
-        getPage() {
-            this.load = true;
-            ${className}Api.paging(this.param, (result) => {
-                if (result.success) {
-                    this.table.total = parseInt(result.data.total);
-                    this.table.data = result.data.records;
-                }
-                this.load = false;
-            });
+        created() {
+            this.init();
         },
-        save() {
-            this.$refs["form"].validate((valid) => {
-                if (valid) {
-                    switch (this.statu) {
-                        case "add":
-                            this.load = true;
-                            ${className}Api.add(this.form, (result) => {
+        methods: {
+            init() {
+                this.getPage();
+            },
+            edit(row) {
+                this.statu = "edit";
+                this.form = {
+                    <#list data as value>
+                    ${toHump(value.columnName)}: row.${toHump(value.columnName)},
+                    </#list>
+                };
+                this.formDialog = true;
+            },
+            remove(row) {
+                this.$confirm("确认删除这条数据吗?", "警告", {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning",
+                })
+                    .then(() => {
+                        ${className}Api.deleteById(
+                            {
+                                id: row.id,
+                            },
+                            (result) => {
                                 if (result.success) {
                                     this.$message({
-                                        message: "添加成功!",
+                                        message: "删除成功!",
                                         type: "success",
                                     });
                                     this.getPage();
-                                } else {
-                                    this.$message({
-                                        message: "添加失败！",
-                                        type: "warning",
-                                    });
                                 }
-                                this.load = false;
-                            });
-                            break;
-                        case "edit":
-                            ${className}Api.modifyById(this.form, (result) => {
-                                if (result.success) {
-                                    this.$message({
-                                        message: "修改成功!",
-                                        type: "success",
-                                    });
-                                    this.getPage();
-                                } else {
-                                    this.$message({
-                                        message: "修改失败！",
-                                        type: "warning",
-                                    });
-                                }
-                                this.load = false;
-                            });
-                            break;
-                    }
-                    this.formDialog = false;
-                } else {
-                    this.$message({
-                        message: "请完成表单",
-                        type: "warning",
+                            }
+                        );
+                    })
+                    .catch(() => {
                     });
-                    return false;
-                }
-            });
+            },
+            add() {
+                this.statu = "add";
+                this.form = {
+                    <#list data as value>
+                    ${toHump(value.columnName)}: "",
+                    </#list>
+                };
+                this.formDialog = true;
+            },
+            getPage() {
+                this.load = true;
+                ${className}Api.paging(this.param, (result) => {
+                    if (result.success) {
+                        this.table.total = parseInt(result.data.total);
+                        this.table.data = result.data.records;
+                    }
+                    this.load = false;
+                });
+            },
+            save() {
+                this.$refs["form"].validate((valid) => {
+                    if (valid) {
+                        switch (this.statu) {
+                            case "add":
+                                this.load = true;
+                                ${className}Api.add(this.form, (result) => {
+                                    if (result.success) {
+                                        this.$message({
+                                            message: "添加成功!",
+                                            type: "success",
+                                        });
+                                        this.getPage();
+                                    } else {
+                                        this.$message({
+                                            message: "添加失败！",
+                                            type: "warning",
+                                        });
+                                    }
+                                    this.load = false;
+                                });
+                                break;
+                            case "edit":
+                                ${className}Api.modifyById(this.form, (result) => {
+                                    if (result.success) {
+                                        this.$message({
+                                            message: "修改成功!",
+                                            type: "success",
+                                        });
+                                        this.getPage();
+                                    } else {
+                                        this.$message({
+                                            message: "修改失败！",
+                                            type: "warning",
+                                        });
+                                    }
+                                    this.load = false;
+                                });
+                                break;
+                        }
+                        this.formDialog = false;
+                    } else {
+                        this.$message({
+                            message: "请完成表单",
+                            type: "warning",
+                        });
+                        return false;
+                    }
+                });
+            },
         },
-    },
-};
+    };
 </script>
 
 <style>

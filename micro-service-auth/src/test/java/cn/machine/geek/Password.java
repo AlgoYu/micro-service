@@ -19,7 +19,7 @@ public class Password {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void password(){
+    public void password() {
         log.info(passwordEncoder.encode("RESOURCE"));
     }
 }

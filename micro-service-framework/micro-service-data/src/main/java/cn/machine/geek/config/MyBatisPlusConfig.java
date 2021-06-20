@@ -15,12 +15,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MyBatisPlusConfig {
     /**
-    * @Author: MachineGeek
-    * @Description: 配置MyBatis Plus插件
-    * @Date: 2021/1/6
      * @param
-    * @Return: com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor
-    */
+     * @Author: MachineGeek
+     * @Description: 配置MyBatis Plus插件
+     * @Date: 2021/1/6
+     * @Return: com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor
+     */
     @Bean
     public MybatisPlusInterceptor paginationInterceptor() {
         MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();

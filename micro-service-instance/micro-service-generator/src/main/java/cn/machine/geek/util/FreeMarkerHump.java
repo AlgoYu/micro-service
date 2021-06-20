@@ -20,6 +20,6 @@ public class FreeMarkerHump implements TemplateMethodModelEx {
     @Override
     public Object exec(List list) throws TemplateModelException {
         String str = list.get(0).toString();
-        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,str);
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, str);
     }
 }

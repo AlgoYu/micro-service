@@ -31,18 +31,18 @@ public class CodeGeneratorController {
     private CodeGenerator codeGenerator;
 
     @GetMapping(value = "/paging")
-    public R paging(@Validated P p){
-        return R.ok(databaseService.paging(p.getPage(),p.getSize(),p.getKeyword()));
+    public R paging(@Validated P p) {
+        return R.ok(databaseService.paging(p.getPage(), p.getSize(), p.getKeyword()));
     }
 
     @GetMapping(value = "/generate")
-    public void generate(@RequestParam(value = "tableName") String tableName, @RequestParam(value = "moduleName") String moduleName,@RequestParam(value = "packageName",required = false,defaultValue = "cn.machine.geek") String packageName, HttpServletResponse response){
+    public void generate(@RequestParam(value = "tableName") String tableName, @RequestParam(value = "moduleName") String moduleName, @RequestParam(value = "packageName", required = false, defaultValue = "cn.machine.geek") String packageName, HttpServletResponse response) {
         String filePath = codeGenerator.generate(tableName, packageName, moduleName);
         response.setContentType("application/octet-stream");
         File file = new File(filePath);
-        response.setHeader("Content-Disposition", "attachment; filename="+file.getName());
+        response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
         try {
-            IOUtils.copy(new FileInputStream(file),response.getOutputStream());
+            IOUtils.copy(new FileInputStream(file), response.getOutputStream());
             response.flushBuffer();
         } catch (IOException e) {
             e.printStackTrace();

@@ -6,11 +6,11 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="${packageName}.entity.${className}">
         <#list data as value>
-        <#if value.columnKey == "PRI">
-        <id column="${value.columnName}" property="${toHump(value.columnName)}" />
-        <#else>
-        <result column="${value.columnName}" property="${toHump(value.columnName)}" />
-        </#if>
+            <#if value.columnKey == "PRI">
+                <id column="${value.columnName}" property="${toHump(value.columnName)}"/>
+            <#else>
+                <result column="${value.columnName}" property="${toHump(value.columnName)}"/>
+            </#if>
         </#list>
     </resultMap>
     <#assign columns><#list data as value>${"`" + value.columnName + "`,"}</#list></#assign>

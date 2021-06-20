@@ -43,15 +43,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
      * @Return: org.springframework.security.oauth2.provider.token.TokenStore
      */
     @Bean
-    public TokenStore tokenStore(){
+    public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
     }
 
     /**
+     * @param
      * @Author: MachineGeek
      * @Description: JWT转换器加载公钥
      * @Date: 2021/1/19
-     * @param
      * @Return: org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
      */
     @Bean
@@ -70,12 +70,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 
     /**
-    * @Author: MachineGeek
-    * @Description: 配置资源服务器策略
-    * @Date: 2021/1/19
      * @param resources
-    * @Return: void
-    */
+     * @Author: MachineGeek
+     * @Description: 配置资源服务器策略
+     * @Date: 2021/1/19
+     * @Return: void
+     */
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
@@ -85,10 +85,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 
     /**
+     * @param http
      * @Author: MachineGeek
      * @Description: 配置资源服务器安全策略
      * @Date: 2021/1/19
-     * @param http
      * @Return: void
      */
     @Override

@@ -35,20 +35,20 @@ public class CustomUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(Account::getName,s);
+        queryWrapper.lambda().eq(Account::getName, s);
         Account account = accountMapper.selectOne(queryWrapper);
-        if(account == null){
+        if (account == null) {
             throw new UsernameNotFoundException("账户未找到");
         }
         List<Role> roles = roleMapper.selectByAccountId(account.getId());
         List<Authority> authorities = authorityMapper.selectByAccountId(account.getId());
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        roles.forEach((role)->{
+        roles.forEach((role) -> {
             grantedAuthorities.add(new CustomGrantedAuthority(role.getKey()));
         });
         authorities.forEach((authority) -> {
             grantedAuthorities.add(new CustomGrantedAuthority(authority.getKey()));
         });
-        return new CustomUserDetail(account.getId(),account.getName(),account.getPassword(),account.getEnable(),grantedAuthorities);
+        return new CustomUserDetail(account.getId(), account.getName(), account.getPassword(), account.getEnable(), grantedAuthorities);
     }
 }

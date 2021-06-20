@@ -25,27 +25,27 @@ public class SystemExceptionController {
 
     @GetMapping(value = "/paging")
     @PreAuthorize("hasAuthority('EXCEPTION:GET')")
-    public R paging(@Validated P p){
+    public R paging(@Validated P p) {
         QueryWrapper<SystemException> queryWrapper = new QueryWrapper<>();
         String keyWord = p.getKeyword();
-        if (!StringUtils.isEmpty(keyWord)){
-            queryWrapper.lambda().like(SystemException::getUri,keyWord)
-                    .or().like(SystemException::getExceptionMessage,keyWord)
-                    .or().like(SystemException::getExceptionClass,keyWord)
-                    .or().like(SystemException::getParameter,keyWord);
+        if (!StringUtils.isEmpty(keyWord)) {
+            queryWrapper.lambda().like(SystemException::getUri, keyWord)
+                    .or().like(SystemException::getExceptionMessage, keyWord)
+                    .or().like(SystemException::getExceptionClass, keyWord)
+                    .or().like(SystemException::getParameter, keyWord);
         }
-        return R.ok(systemExceptionService.page(new Page<>(p.getPage(),p.getSize()),queryWrapper));
+        return R.ok(systemExceptionService.page(new Page<>(p.getPage(), p.getSize()), queryWrapper));
     }
 
     @DeleteMapping(value = "/deleteById")
     @PreAuthorize("hasAuthority('EXCEPTION:DELETE')")
-    public R deleteById(@RequestParam(value = "id") Long id){
+    public R deleteById(@RequestParam(value = "id") Long id) {
         return R.ok(systemExceptionService.removeById(id));
     }
 
     @DeleteMapping(value = "/clear")
     @PreAuthorize("hasAuthority('EXCEPTION:DELETE')")
-    public R clear(){
+    public R clear() {
         return R.ok(systemExceptionService.remove(new QueryWrapper<>()));
     }
 }

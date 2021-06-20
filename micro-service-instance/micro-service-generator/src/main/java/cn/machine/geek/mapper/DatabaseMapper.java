@@ -16,7 +16,10 @@ import java.util.List;
 @Mapper
 public interface DatabaseMapper {
     List<String> listDatabase();
+
     String getCurrentDatabase();
-    IPage<DatabaseTable> pagingTableByDatabaseName(IPage<DatabaseTable> page,@Param(value = "databaseName")String databaseName,@Param(value = "keyWord") String keyWord);
+
+    IPage<DatabaseTable> pagingTableByDatabaseName(IPage<DatabaseTable> page, @Param(value = "databaseName") String databaseName, @Param(value = "keyWord") String keyWord);
+
     List<DatabaseTableColumn> listColumnByTableName(@Param("tableName") String tableName);
 }

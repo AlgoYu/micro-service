@@ -13,5 +13,6 @@ import org.springframework.stereotype.Service;
 * @Date: ${date}
 */
 @Service
-public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements ${className}Service {
+public class ${className}ServiceImpl extends ServiceImpl
+<${className}Mapper, ${className}> implements ${className}Service {
 }

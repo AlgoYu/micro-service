@@ -5,16 +5,16 @@
 <mapper namespace="cn.machine.geek.mapper.SystemExceptionMapper">
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.machine.geek.entity.SystemException">
-        <id column="id" property="id" />
-        <result column="service" property="service" />
-        <result column="host" property="host" />
-        <result column="uri" property="uri" />
-        <result column="method" property="method" />
-        <result column="parameter" property="parameter" />
-        <result column="ip" property="ip" />
-        <result column="exception_class" property="exceptionClass" />
-        <result column="exception_message" property="exceptionMessage" />
-        <result column="create_time" property="createTime" />
+        <id column="id" property="id"/>
+        <result column="service" property="service"/>
+        <result column="host" property="host"/>
+        <result column="uri" property="uri"/>
+        <result column="method" property="method"/>
+        <result column="parameter" property="parameter"/>
+        <result column="ip" property="ip"/>
+        <result column="exception_class" property="exceptionClass"/>
+        <result column="exception_message" property="exceptionMessage"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">

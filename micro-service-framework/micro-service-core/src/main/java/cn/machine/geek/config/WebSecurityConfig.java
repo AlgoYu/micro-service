@@ -16,17 +16,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @ConditionalOnClass(WebSecurityConfigurerAdapter.class)
 @Configuration
-@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
+     * @param
      * @Author: MachineGeek
      * @Description: 注册密码加密器
      * @Date: 2021/1/6
-     * @param
      * @Return: org.springframework.security.crypto.password.PasswordEncoder
      */
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

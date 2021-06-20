@@ -21,6 +21,7 @@ import org.springframework.messaging.support.MessageBuilder;
 public class RabbitMessageProviderImpl implements RabbitMessageProvider {
     @Autowired
     private MessageChannel output;
+
     @Override
     public boolean send(Object object) {
         return output.send(MessageBuilder.withPayload(object).build());

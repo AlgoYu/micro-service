@@ -20,9 +20,9 @@ import java.time.LocalDateTime;
 public class ${className}{
 <#list data as value>
     <#if value.columnKey == "PRI">
-    @TableId(value = "`${value.columnName}`",type= IdType.ASSIGN_ID)
+        @TableId(value = "`${value.columnName}`",type= IdType.ASSIGN_ID)
     <#else>
-    @TableField(value = "`${value.columnName}`")
+        @TableField(value = "`${value.columnName}`")
     </#if>
     @ApiModelProperty(value = "${value.columnComment}")
     private <#switch value.dataType><#case "bigint">Long<#break><#case "int">Integer<#break><#case "datetime">LocalDateTime<#break><#default>String</#switch> ${toHump(value.columnName)};

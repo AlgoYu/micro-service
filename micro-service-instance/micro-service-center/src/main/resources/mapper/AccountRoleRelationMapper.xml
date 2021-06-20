@@ -5,8 +5,8 @@
 <mapper namespace="cn.machine.geek.mapper.AccountRoleRelationMapper">
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.machine.geek.entity.AccountRoleRelation">
-        <id column="account_id" property="accountId" />
-        <id column="role_id" property="roleId" />
+        <id column="account_id" property="accountId"/>
+        <id column="role_id" property="roleId"/>
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">

@@ -1,6 +1,6 @@
 # 脚本说明
 
-## [client](https://github.com/seata/seata/tree/develop/script/client) 
+## [client](https://github.com/seata/seata/tree/develop/script/client)
 
 > 存放用于客户端的配置和SQL
 

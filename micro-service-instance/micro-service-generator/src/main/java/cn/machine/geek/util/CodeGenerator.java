@@ -26,7 +26,7 @@ import java.util.UUID;
  * @Date: 2020/11/05
  */
 @Component
-public class CodeGenerator{
+public class CodeGenerator {
     // FreeMarker
     private Configuration configuration;
     // 数据库映射类
@@ -40,51 +40,51 @@ public class CodeGenerator{
         this.configuration = configuration;
         this.databaseMapper = databaseMapper;
         // 加入驼峰函数
-        this.configuration.setSharedVariable("toHump",new FreeMarkerHump());
+        this.configuration.setSharedVariable("toHump", new FreeMarkerHump());
     }
 
     /**
-    * @Author: MachineGeek
-    * @Description: 生成代码
-    * @Date: 12:58 下午
      * @param tableName
      * @param moduleName
-    * @Return: java.lang.String
-    */
+     * @Author: MachineGeek
+     * @Description: 生成代码
+     * @Date: 12:58 下午
+     * @Return: java.lang.String
+     */
     @SneakyThrows
-    public String generate(String tableName, String packageName, String moduleName){
+    public String generate(String tableName, String packageName, String moduleName) {
         // 获取数据
         List<DatabaseTableColumn> databaseTableColumns = getColumnsByTableName(tableName);
-        if(databaseTableColumns.size() > 0){
-            Map<String,Object> data = new HashMap<>();
-            String className = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL,tableName);
-            String instanceName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,tableName);
+        if (databaseTableColumns.size() > 0) {
+            Map<String, Object> data = new HashMap<>();
+            String className = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName);
+            String instanceName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, tableName);
             // 设置数据
-            data.put("data",databaseTableColumns);
-            data.put("tableName",tableName);
-            data.put("packageName",packageName);
+            data.put("data", databaseTableColumns);
+            data.put("tableName", tableName);
+            data.put("packageName", packageName);
             data.put("className", className);
             data.put("instanceName", instanceName);
-            data.put("moduleName",moduleName);
+            data.put("moduleName", moduleName);
             data.put("date", LocalDate.now());
             data.put("id", IdWorker.getIdStr());
             // 创建目录
             String randomName = UUID.randomUUID().toString();
             String directory = generatePath + randomName + "/";
             File file = new File(directory);
-            if(file.mkdirs()){
-                generateFile("sql.ftl",data,directory + className +".sql");
-                generateFile("entity.ftl",data,directory + className +".java");
-                generateFile("xml.ftl",data,directory + className +"Mapper.xml");
-                generateFile("mapper.ftl",data,directory + className +"Mapper.java");
-                generateFile("service.ftl",data,directory + className +"Service.java");
-                generateFile("serviceimpl.ftl",data,directory + className +"ServiceImpl.java");
-                generateFile("controller.ftl",data,directory + className +"Controller.java");
-                generateFile("api.ftl",data,directory + className +"Api.js");
-                generateFile("vue.ftl",data,directory + className +".vue");
+            if (file.mkdirs()) {
+                generateFile("sql.ftl", data, directory + className + ".sql");
+                generateFile("entity.ftl", data, directory + className + ".java");
+                generateFile("xml.ftl", data, directory + className + "Mapper.xml");
+                generateFile("mapper.ftl", data, directory + className + "Mapper.java");
+                generateFile("service.ftl", data, directory + className + "Service.java");
+                generateFile("serviceimpl.ftl", data, directory + className + "ServiceImpl.java");
+                generateFile("controller.ftl", data, directory + className + "Controller.java");
+                generateFile("api.ftl", data, directory + className + "Api.js");
+                generateFile("vue.ftl", data, directory + className + ".vue");
                 // 打包
                 String zipPath = generatePath + randomName + ".zip";
-                ZipUtil.compressionToZip(directory,zipPath);
+                ZipUtil.compressionToZip(directory, zipPath);
                 return zipPath;
             }
         }
@@ -92,31 +92,31 @@ public class CodeGenerator{
     }
 
     /**
-    * @Author: MachineGeek
-    * @Description: 根据表名获取表字段
-    * @Date: 1:26 下午
      * @param tableName
-    * @Return: java.util.List<cn.machine.geek.entity.DatabaseTableColumn>
-    */
-    private List<DatabaseTableColumn> getColumnsByTableName(String tableName){
+     * @Author: MachineGeek
+     * @Description: 根据表名获取表字段
+     * @Date: 1:26 下午
+     * @Return: java.util.List<cn.machine.geek.entity.DatabaseTableColumn>
+     */
+    private List<DatabaseTableColumn> getColumnsByTableName(String tableName) {
         return databaseMapper.listColumnByTableName(tableName);
     }
 
     /**
-    * @Author: MachineGeek
-    * @Description: 根据模板生成文件
-    * @Date: 2021/1/7
      * @param templateName
      * @param data
      * @param filePath
-    * @Return: void
-    */
-    private void generateFile(String templateName,Map<String,Object> data,String filePath){
+     * @Author: MachineGeek
+     * @Description: 根据模板生成文件
+     * @Date: 2021/1/7
+     * @Return: void
+     */
+    private void generateFile(String templateName, Map<String, Object> data, String filePath) {
         try {
             Template template = configuration.getTemplate(templateName);
             File file = new File(filePath);
-            if(file.createNewFile()){
-                template.process(data,new BufferedWriter(new FileWriter(filePath)));
+            if (file.createNewFile()) {
+                template.process(data, new BufferedWriter(new FileWriter(filePath)));
             }
         } catch (Exception e) {
             e.printStackTrace();

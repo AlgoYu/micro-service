@@ -20,14 +20,14 @@ public class MessageListener {
     private SystemExceptionMapper systemExceptionMapper;
 
     /**
-    * @Author: MachineGeek
-    * @Description: 接受消息队列的错误信息并插入到数据库
-    * @Date: 2021/1/31
      * @param message
-    * @Return: void
-    */
+     * @Author: MachineGeek
+     * @Description: 接受消息队列的错误信息并插入到数据库
+     * @Date: 2021/1/31
+     * @Return: void
+     */
     @StreamListener(Sink.INPUT)
-    public void input(Message<SystemException> message){
+    public void input(Message<SystemException> message) {
         systemExceptionMapper.insert(message.getPayload());
     }
 }

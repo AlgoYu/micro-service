@@ -14,6 +14,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 public class GeneratorApplication {
     public static void main(String[] args) {
-        SpringApplication.run(GeneratorApplication.class,args);
+        SpringApplication.run(GeneratorApplication.class, args);
     }
 }

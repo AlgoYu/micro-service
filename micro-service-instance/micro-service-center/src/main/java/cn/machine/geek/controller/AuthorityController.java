@@ -35,28 +35,28 @@ public class AuthorityController {
     private TokenStore tokenStore;
 
     /**
-    * @Author: MachineGeek
-    * @Description: 获取权力树
-    * @Date: 2021/1/11
      * @param
-    * @Return: cn.machine.geek.common.R
-    */
+     * @Author: MachineGeek
+     * @Description: 获取权力树
+     * @Date: 2021/1/11
+     * @Return: cn.machine.geek.common.R
+     */
     @GetMapping("/tree")
-    public R tree(){
+    public R tree() {
         QueryWrapper<Authority> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().orderByDesc(Authority::getSort);
-        return R.ok(getChild(0L,authorityService.list(queryWrapper)));
+        return R.ok(getChild(0L, authorityService.list(queryWrapper)));
     }
 
     /**
-    * @Author: MachineGeek
-    * @Description: 获取当前用户的权限
-    * @Date: 2021/1/11
      * @param
-    * @Return: cn.machine.geek.common.R
-    */
+     * @Author: MachineGeek
+     * @Description: 获取当前用户的权限
+     * @Date: 2021/1/11
+     * @Return: cn.machine.geek.common.R
+     */
     @GetMapping("/getMyAuthorities")
-    public R getMyAuthorities(OAuth2Authentication oAuth2Authentication){
+    public R getMyAuthorities(OAuth2Authentication oAuth2Authentication) {
         OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) oAuth2Authentication.getDetails();
         OAuth2AccessToken token = tokenStore
                 .readAccessToken(oAuth2AuthenticationDetails.getTokenValue());
@@ -66,36 +66,36 @@ public class AuthorityController {
         // 把权限分为路由权限和API权限
         List<Authority> routes = new ArrayList<>();
         List<Authority> apis = new ArrayList<>();
-        authorities.forEach((authority)->{
-            if(authority.getUri() == null){
+        authorities.forEach((authority) -> {
+            if (authority.getUri() == null) {
                 apis.add(authority);
-            }else{
+            } else {
                 routes.add(authority);
             }
         });
         // 返回权限
-        Map<String,Object> map = new HashMap<>();
-        map.put("apis",apis);
+        Map<String, Object> map = new HashMap<>();
+        map.put("apis", apis);
         // 返回路由树
-        map.put("routes",getChild(0L,routes));
+        map.put("routes", getChild(0L, routes));
         return R.ok(map);
     }
 
     /**
+     * @param id
+     * @param authorities
      * @Author: MachineGeek
      * @Description: 构建权限树
      * @Date: 2021/1/11
-     * @param id
-     * @param authorities
      * @Return: java.util.List<cn.machine.geek.dto.AuthorityTreeNode>
      */
-    private List<AuthorityTree> getChild(Long id, List<Authority> authorities){
+    private List<AuthorityTree> getChild(Long id, List<Authority> authorities) {
         List<AuthorityTree> child = new ArrayList<>();
-        authorities.forEach((authority)->{
-            if(authority.getPid().equals(id)){
+        authorities.forEach((authority) -> {
+            if (authority.getPid().equals(id)) {
                 AuthorityTree authorityTree = new AuthorityTree();
-                BeanUtils.copyProperties(authority,authorityTree);
-                authorityTree.setChild(getChild(authorityTree.getId(),authorities));
+                BeanUtils.copyProperties(authority, authorityTree);
+                authorityTree.setChild(getChild(authorityTree.getId(), authorities));
                 child.add(authorityTree);
             }
         });

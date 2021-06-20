@@ -16,12 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
-    * @Author: MachineGeek
-    * @Description: 注册认证管理器
-    * @Date: 2021/1/18
      * @param
-    * @Return: org.springframework.security.authentication.AuthenticationManager
-    */
+     * @Author: MachineGeek
+     * @Description: 注册认证管理器
+     * @Date: 2021/1/18
+     * @Return: org.springframework.security.authentication.AuthenticationManager
+     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -29,14 +29,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
+     * @param
      * @Author: MachineGeek
      * @Description: 注册密码加密器
      * @Date: 2021/1/6
-     * @param
      * @Return: org.springframework.security.crypto.password.PasswordEncoder
      */
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

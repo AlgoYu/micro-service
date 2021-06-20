@@ -11,10 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    /** @Author: MachineGeek
+    /**
+     * @param registry
+     * @Author: MachineGeek
      * @Description: 跨域配置
      * @Date: 2020/10/4
-     * @param registry
      * @Return void
      */
     @Override

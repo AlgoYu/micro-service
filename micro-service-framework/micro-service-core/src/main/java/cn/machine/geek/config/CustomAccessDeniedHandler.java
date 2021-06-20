@@ -28,7 +28,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
         httpServletResponse.setContentType("application/json;charset=utf-8");
         PrintWriter writer = httpServletResponse.getWriter();
-        String json = objectMapper.writeValueAsString(new R(false,403,"无权访问",null));
+        String json = objectMapper.writeValueAsString(new R(false, 403, "无权访问", null));
         writer.print(json);
         writer.flush();
         writer.close();

@@ -21,33 +21,36 @@ public class R {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object data;
 
-    /** @Author: MachineGeek
+    /**
+     * @param
+     * @Author: MachineGeek
      * @Description: 成功
      * @Date: 2021/1/6
-     * @param
      * @Return cn.machine.geek.common.R
      */
-    public static R ok(){
-        return new R(true,200,null,null);
+    public static R ok() {
+        return new R(true, 200, null, null);
     }
 
-    /** @Author: MachineGeek
+    /**
+     * @param
+     * @Author: MachineGeek
      * @Description: 成功携带数据
      * @Date: 2021/1/6
-     * @param
      * @Return cn.machine.geek.common.R
      */
-    public static R ok(Object data){
-        return new R(true,200,null,data);
+    public static R ok(Object data) {
+        return new R(true, 200, null, data);
     }
 
-    /** @Author: MachineGeek
+    /**
+     * @param
+     * @Author: MachineGeek
      * @Description: 失败
      * @Date: 2021/1/6
-     * @param
      * @Return cn.machine.geek.common.R
      */
-    public static R fail(String msg){
-        return new R(false,200,msg,null);
+    public static R fail(String msg) {
+        return new R(false, 200, msg, null);
     }
 }

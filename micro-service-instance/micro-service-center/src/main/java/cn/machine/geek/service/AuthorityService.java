@@ -11,7 +11,8 @@ import java.util.List;
  * @Email: 794763733@qq.com
  * @Date: 2021/1/7
  */
-public interface AuthorityService  extends IService<Authority> {
+public interface AuthorityService extends IService<Authority> {
     List<Authority> listByRoleId(Long roleId);
+
     List<Authority> listByAccountId(Long accountId);
 }

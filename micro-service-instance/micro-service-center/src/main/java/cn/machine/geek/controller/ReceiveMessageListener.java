@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class ReceiveMessageListener {
 
     @StreamListener(Sink.INPUT)
-    public void input(Message<String> message){
+    public void input(Message<String> message) {
         System.out.println("接受到消息：" + message.getPayload());
     }
 }

@@ -25,19 +25,19 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     }
 
     /**
-    * @Author: MachineGeek
-    * @Description: 未登录或身份过期处理
-    * @Date: 2021/1/6
      * @param httpServletRequest
      * @param httpServletResponse
      * @param e
-    * @Return: void
-    */
+     * @Author: MachineGeek
+     * @Description: 未登录或身份过期处理
+     * @Date: 2021/1/6
+     * @Return: void
+     */
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         httpServletResponse.setContentType("application/json;charset=utf-8");
         PrintWriter writer = httpServletResponse.getWriter();
-        String json = objectMapper.writeValueAsString(new R(false,401,"身份过期或未登陆",null));
+        String json = objectMapper.writeValueAsString(new R(false, 401, "身份过期或未登陆", null));
         writer.print(json);
         writer.flush();
         writer.close();

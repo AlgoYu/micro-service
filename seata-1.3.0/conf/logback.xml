@@ -17,13 +17,16 @@
 
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!-- Context listeners -->
-    <contextListener class="io.seata.server.logging.listener.SystemPropertyLoggerContextListener" />
+    <contextListener class="io.seata.server.logging.listener.SystemPropertyLoggerContextListener"/>
 
     <!-- Copied from spring-boot.jar -->
-    <conversionRule conversionWord="clr" converterClass="io.seata.server.logging.logback.ColorConverter" />
-    <conversionRule conversionWord="wex" converterClass="io.seata.server.logging.logback.WhitespaceThrowableProxyConverter" />
-    <conversionRule conversionWord="wEx" converterClass="io.seata.server.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
-    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"/>
+    <conversionRule conversionWord="clr" converterClass="io.seata.server.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="io.seata.server.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="io.seata.server.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"/>
     <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- [%t] %-40.40logger{39} : %m%n%wEx"/>
 
     <property name="LOG_HOME" value="${user.home}/logs/seata"/>

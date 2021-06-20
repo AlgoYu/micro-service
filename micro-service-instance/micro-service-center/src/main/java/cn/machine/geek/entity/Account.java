@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
  * @Date: 2021/1/6
  */
 @Data
-public class Account{
-    @TableId(value = "`id`",type= IdType.ASSIGN_ID)
+public class Account {
+    @TableId(value = "`id`", type = IdType.ASSIGN_ID)
     private Long id;
 
     @TableField(value = "`picture`")

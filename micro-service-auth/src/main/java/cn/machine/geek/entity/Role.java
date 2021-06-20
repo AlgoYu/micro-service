@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  */
 @Data
 public class Role {
-    @TableId(value = "`id`",type= IdType.ASSIGN_ID)
+    @TableId(value = "`id`", type = IdType.ASSIGN_ID)
     private Long id;
 
     @TableField(value = "`name`")

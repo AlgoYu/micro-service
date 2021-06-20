@@ -27,6 +27,6 @@ public class DatabaseServiceImpl implements DatabaseService {
 
     @Override
     public IPage<DatabaseTable> paging(int page, int size, String keyWord) {
-        return databaseMapper.pagingTableByDatabaseName(new Page<>(page,size),databaseMapper.getCurrentDatabase(),keyWord);
+        return databaseMapper.pagingTableByDatabaseName(new Page<>(page, size), databaseMapper.getCurrentDatabase(), keyWord);
     }
 }

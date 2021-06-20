@@ -5,12 +5,12 @@
 <mapper namespace="cn.machine.geek.mapper.AuthorityMapper">
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.machine.geek.entity.Authority">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="key" property="key" />
-        <result column="pid" property="pid" />
-        <result column="sort" property="sort" />
-        <result column="uri" property="uri" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="key" property="key"/>
+        <result column="pid" property="pid"/>
+        <result column="sort" property="sort"/>
+        <result column="uri" property="uri"/>
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">

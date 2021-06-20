@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 public class Authority {
-    @TableId(value = "`id`",type= IdType.ASSIGN_ID)
+    @TableId(value = "`id`", type = IdType.ASSIGN_ID)
     private Long id;
 
     @TableField(value = "`name`")

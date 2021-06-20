@@ -36,58 +36,58 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public R exceptionHandler(HttpServletRequest httpServletRequest, Exception e){
+    public R exceptionHandler(HttpServletRequest httpServletRequest, Exception e) {
         // 构建异常信息
-        Map<String,Object> map = new HashMap<>();
-        map.put("service",applicationName);
+        Map<String, Object> map = new HashMap<>();
+        map.put("service", applicationName);
         try {
             map.put("host", Inet4Address.getLocalHost().getAddress());
         } catch (UnknownHostException unknownHostException) {
             unknownHostException.printStackTrace();
         }
-        map.put("uri",httpServletRequest.getRequestURI());
-        map.put("ip",getIpAddr(httpServletRequest));
+        map.put("uri", httpServletRequest.getRequestURI());
+        map.put("ip", getIpAddr(httpServletRequest));
         String method = httpServletRequest.getMethod();
-        map.put("method",method);
-        if(method.equals("GET") || method.equals("DELETE")){
-            map.put("parameter",getParameter(httpServletRequest));
-        }else{
-            map.put("parameter",getBody(httpServletRequest));
+        map.put("method", method);
+        if (method.equals("GET") || method.equals("DELETE")) {
+            map.put("parameter", getParameter(httpServletRequest));
+        } else {
+            map.put("parameter", getBody(httpServletRequest));
         }
-        map.put("exceptionClass",e.getClass().getName());
-        map.put("exceptionMessage",e.getMessage());
-        map.put("createTime",LocalDateTime.now());
+        map.put("exceptionClass", e.getClass().getName());
+        map.put("exceptionMessage", e.getMessage());
+        map.put("createTime", LocalDateTime.now());
         rabbitMessageProvider.send(map);
         // 返回异常信息
         return R.fail("服务器繁忙");
     }
 
     /**
+     * @param request
      * @Author: MachineGeek
      * @Description: 获取用户的真实IP地址
      * @Date: 11:09 上午
-     * @param request
      * @Return: java.lang.String
      */
     private String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("x - forwarded - for");
-        if (ip == null || ip.length() == 0 ||"unknown".equalsIgnoreCase(ip)){
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy - Client - IP");
         }
-        if (ip == null || ip.length() == 0 ||"unknown".equalsIgnoreCase(ip)){
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL - Proxy - Client - IP");
         }
-        if (ip == null || ip.length() == 0 ||"unknown".equalsIgnoreCase(ip)){
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
         return ip;
     }
 
     /**
+     * @param request
      * @Author: MachineGeek
      * @Description: 获取HTTP Body
      * @Date: 11:11 上午
-     * @param request
      * @Return: java.lang.String
      */
     private String getBody(HttpServletRequest request) {
@@ -95,7 +95,7 @@ public class GlobalExceptionHandler {
         String str, wholeStr = "";
         try {
             br = request.getReader();
-            while((str = br.readLine()) != null){
+            while ((str = br.readLine()) != null) {
                 wholeStr += str;
             }
         } catch (Exception e) {
@@ -106,16 +106,16 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * @param httpServletRequest
      * @Author: MachineGeek
      * @Description: 获取请求参数
      * @Date: 11:14 上午
-     * @param httpServletRequest
      * @Return: java.lang.String
      */
-    private String getParameter(HttpServletRequest httpServletRequest){
+    private String getParameter(HttpServletRequest httpServletRequest) {
         String parameter = "?";
         Set<Map.Entry<String, String[]>> entries = httpServletRequest.getParameterMap().entrySet();
-        for (Map.Entry<String,String[]> entry : entries){
+        for (Map.Entry<String, String[]> entry : entries) {
             parameter = parameter + entry.getKey() + "=" + Arrays.toString(entry.getValue()) + "&";
         }
         return parameter;
